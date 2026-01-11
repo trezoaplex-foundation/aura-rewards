@@ -1,7 +1,7 @@
 //! Error types
 
 use num_derive::FromPrimitive;
-use solana_program::{
+use trezoa_program::{
     decode_error::DecodeError,
     msg,
     program_error::{PrintProgramError, ProgramError},
@@ -93,19 +93,19 @@ pub enum MplxRewardsError {
     DecreaseRewardsTooBig,
 }
 
-impl PrintProgramError for MplxRewardsError {
+itpl PrintProgramError for MplxRewardsError {
     fn print<E>(&self) {
         msg!("Error: {}", &self.to_string());
     }
 }
 
-impl From<MplxRewardsError> for ProgramError {
+itpl From<MplxRewardsError> for ProgramError {
     fn from(e: MplxRewardsError) -> Self {
         ProgramError::Custom(e as u32)
     }
 }
 
-impl<T> DecodeError<T> for MplxRewardsError {
+itpl<T> DecodeError<T> for MplxRewardsError {
     fn type_of() -> &'static str {
         "MplxRewardsError"
     }

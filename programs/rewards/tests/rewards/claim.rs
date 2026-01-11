@@ -1,16 +1,16 @@
 use crate::utils::*;
-use mplx_rewards::{
+use tplx_rewards::{
     state::{WrappedMining, WrappedRewardPool},
     utils::LockupPeriod,
 };
-use solana_program::{program_pack::Pack, pubkey::Pubkey};
-use solana_program_test::*;
-use solana_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
-use spl_token::state::Account;
+use trezoa_program::{program_pack::Pack, pubkey::Pubkey};
+use trezoa_program_test::*;
+use trezoa_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
+use tpl_token::state::Account;
 use std::borrow::{Borrow, BorrowMut};
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey) {
-    let test = ProgramTest::new("mplx_rewards", mplx_rewards::ID, None);
+    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();
@@ -81,7 +81,7 @@ async fn with_two_users() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -173,7 +173,7 @@ async fn flex_vs_three_months() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -264,7 +264,7 @@ async fn multiple_consequantial_distributions_for_two_users() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -355,7 +355,7 @@ async fn rewards_after_distribution_are_unclaimable() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -393,7 +393,7 @@ async fn rewards_after_distribution_are_unclaimable() {
     advance_clock_by_ts(&mut context, (SECONDS_PER_DAY * 1000).try_into().unwrap()).await;
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -481,7 +481,7 @@ async fn switch_to_flex_is_correct() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -583,7 +583,7 @@ async fn two_deposits_vs_one() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -670,7 +670,7 @@ async fn claim_tokens_after_deposit_expiration() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -772,7 +772,7 @@ async fn claim_after_withdraw_is_correct() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -817,7 +817,7 @@ async fn claim_after_withdraw_is_correct() {
     advance_clock_by_ts(&mut context, (SECONDS_PER_DAY * 91).try_into().unwrap()).await;
     let distribution_ends_at: u64 = (context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64)
@@ -874,7 +874,7 @@ async fn claim_after_withdraw_is_correct() {
     advance_clock_by_ts(&mut context, SECONDS_PER_DAY.try_into().unwrap()).await;
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -951,7 +951,7 @@ async fn with_two_users_with_flex() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -1065,7 +1065,7 @@ async fn claim_with_delegate() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;

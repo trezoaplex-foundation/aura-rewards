@@ -1,4 +1,4 @@
-// import { generateSigner } from "@metaplex-foundation/umi";
+// import { generateSigner } from "@trezoaplex-foundation/umi";
 // // eslint-disable-next-line import/no-extraneous-dependencies
 // import test from "ava";
 // import { existsSync, readFileSync, writeFileSync } from "fs";

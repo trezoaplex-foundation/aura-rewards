@@ -1,4 +1,4 @@
-// import { generateSigner } from '@metaplex-foundation/umi';
+// import { generateSigner } from '@trezoaplex-foundation/umi';
 // import test from 'ava';
 // import { MyAccount, create, fetchMyAccount } from '../src';
 // import { createUmi } from './_setup';

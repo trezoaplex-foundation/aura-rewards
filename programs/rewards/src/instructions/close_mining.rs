@@ -4,7 +4,7 @@ use crate::{
     state::{WrappedMining, WrappedRewardPool},
     utils::{AccountLoader, SafeArithmeticOperations},
 };
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey, system_program,
 };
 
@@ -42,8 +42,8 @@ pub fn process_close_mining<'a>(
         }
     }
 
-    // Snippet from solana cookbook
-    // https://solanacookbook.com/references/accounts.html#how-to-close-accounts
+    // Snippet from trezoa cookbook
+    // https://trezoacookbook.com/references/accounts.html#how-to-close-accounts
     let dest_starting_lamports = target_account.lamports();
 
     **target_account.lamports.borrow_mut() = dest_starting_lamports.safe_add(mining.lamports())?;

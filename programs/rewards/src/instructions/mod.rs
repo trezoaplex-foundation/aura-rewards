@@ -1,7 +1,7 @@
 //! Program processor
 use crate::instruction::RewardsInstruction;
 use borsh::BorshDeserialize;
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
+use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
 
 mod change_delegate;
 mod claim;

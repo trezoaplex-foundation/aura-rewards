@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { createUmi as basecreateUmi } from '@metaplex-foundation/umi-bundle-tests';
+import { createUmi as basecreateUmi } from '@trezoaplex-foundation/umi-bundle-tests';
 import {
   Rewards,
 } from '../src';

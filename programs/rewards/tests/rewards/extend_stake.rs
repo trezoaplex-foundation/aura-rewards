@@ -1,16 +1,16 @@
 use crate::utils::*;
-use mplx_rewards::{
+use tplx_rewards::{
     state::{WrappedMining, WrappedRewardPool},
     utils::LockupPeriod,
 };
 use sokoban::NodeAllocatorMap;
-use solana_program::pubkey::Pubkey;
-use solana_program_test::*;
-use solana_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
+use trezoa_program::pubkey::Pubkey;
+use trezoa_program_test::*;
+use trezoa_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
 use std::borrow::BorrowMut;
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey, Pubkey) {
-    let test = ProgramTest::new("mplx_rewards", mplx_rewards::ID, None);
+    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let deposit_token_mint = Keypair::new();
@@ -40,7 +40,7 @@ async fn restake_before_its_expired() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;
@@ -104,7 +104,7 @@ async fn restake_for_another_period_after_old_is_expired() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;
@@ -162,7 +162,7 @@ async fn just_prolong_without_adding_tokes() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;
@@ -226,7 +226,7 @@ async fn restake_after_its_expired_with_no_additional_tokens() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;
@@ -285,7 +285,7 @@ async fn restake_in_expiration_day() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;
@@ -367,7 +367,7 @@ async fn prolong_with_delegate() {
 
     let deposit_start_ts = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64;

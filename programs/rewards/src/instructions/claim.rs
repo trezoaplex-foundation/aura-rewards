@@ -4,24 +4,24 @@ use crate::{
     utils::{spl_transfer, AccountLoader},
 };
 use borsh::BorshSerialize;
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program::set_return_data,
     program_pack::Pack, pubkey::Pubkey,
 };
-use spl_token::state::Account;
+use tpl_token::state::Account;
 
 pub fn process_claim<'a>(program_id: &Pubkey, accounts: &'a [AccountInfo<'a>]) -> ProgramResult {
     let account_info_iter = &mut accounts.iter().enumerate();
 
     let reward_pool = AccountLoader::next_with_owner(account_info_iter, program_id)?;
-    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
-    let vault = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
+    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
+    let vault = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
     let mining = AccountLoader::next_with_owner(account_info_iter, program_id)?;
     let mining_owner = AccountLoader::next_signer(account_info_iter)?;
     let deposit_authority = AccountLoader::next_signer(account_info_iter)?;
     let mining_owner_reward_token_account =
-        AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
-    let _token_program = AccountLoader::next_with_key(account_info_iter, &spl_token::id())?;
+        AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
+    let _token_program = AccountLoader::next_with_key(account_info_iter, &tpl_token::id())?;
 
     {
         let mining_user_rewards =

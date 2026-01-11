@@ -1,11 +1,11 @@
 use crate::utils::*;
-use mplx_rewards::state::WrappedMining;
-use solana_program_test::*;
-use solana_sdk::{signature::Keypair, signer::Signer};
+use tplx_rewards::state::WrappedMining;
+use trezoa_program_test::*;
+use trezoa_sdk::{signature::Keypair, signer::Signer};
 use std::borrow::BorrowMut;
 
 async fn setup() -> (ProgramTestContext, TestRewards) {
-    let test = ProgramTest::new("mplx_rewards", mplx_rewards::ID, None);
+    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();

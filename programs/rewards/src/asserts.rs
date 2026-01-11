@@ -1,5 +1,5 @@
 //! Asserts for account verifications
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, msg, program_error::ProgramError,
     pubkey::Pubkey, rent::Rent, sysvar::Sysvar,
 };

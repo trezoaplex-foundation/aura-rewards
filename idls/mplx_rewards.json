@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "mplx_rewards",
+  "name": "tplx_rewards",
   "instructions": [
     {
       "name": "InitializePool",

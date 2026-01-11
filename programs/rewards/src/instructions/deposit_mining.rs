@@ -2,7 +2,7 @@ use crate::{
     asserts::assert_and_get_pool_and_mining,
     utils::{get_delegate_mining, verify_delegate_mining_address, AccountLoader, LockupPeriod},
 };
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
+use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
 pub fn process_deposit_mining<'a>(
     program_id: &Pubkey,

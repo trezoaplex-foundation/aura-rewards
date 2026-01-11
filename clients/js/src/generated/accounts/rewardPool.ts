@@ -18,7 +18,7 @@ import {
   deserializeAccount,
   gpaBuilder,
   publicKey as toPublicKey,
-} from '@metaplex-foundation/umi';
+} from '@trezoaplex-foundation/umi';
 import {
   Serializer,
   array,
@@ -27,7 +27,7 @@ import {
   u128,
   u64,
   u8,
-} from '@metaplex-foundation/umi/serializers';
+} from '@trezoaplex-foundation/umi/serializers';
 
 export type RewardPool = Account<RewardPoolAccountData>;
 
@@ -140,7 +140,7 @@ export function getRewardPoolGpaBuilder(
   context: Pick<Context, 'rpc' | 'programs'>
 ) {
   const programId = context.programs.getPublicKey(
-    'mplxRewards',
+    'tplxRewards',
     'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'
   );
   return gpaBuilder(context, programId)

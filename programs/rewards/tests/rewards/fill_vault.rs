@@ -1,13 +1,13 @@
 use crate::utils::{assert_custom_on_chain_error::AssertCustomOnChainErr, *};
-use mplx_rewards::{error::MplxRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
-use solana_program::{clock::SECONDS_PER_DAY, program_pack::Pack};
-use solana_program_test::*;
-use solana_sdk::{signature::Keypair, signer::Signer};
-use spl_token::state::Account;
+use tplx_rewards::{error::MplxRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
+use trezoa_program::{clock::SECONDS_PER_DAY, program_pack::Pack};
+use trezoa_program_test::*;
+use trezoa_sdk::{signature::Keypair, signer::Signer};
+use tpl_token::state::Account;
 use std::borrow::Borrow;
 
 async fn setup() -> (ProgramTestContext, TestRewards) {
-    let test = ProgramTest::new("mplx_rewards", mplx_rewards::ID, None);
+    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();
@@ -78,7 +78,7 @@ async fn success() {
     // calculate distribution_ens time
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -131,7 +131,7 @@ async fn zero_amount_of_rewards() {
 
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -190,7 +190,7 @@ async fn only_dao_can_top_up_pool() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -248,7 +248,7 @@ async fn rewards_top_up_extend() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -268,7 +268,7 @@ async fn rewards_top_up_extend() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -339,7 +339,7 @@ async fn rewards_top_up_second_time_with_earlier_distribution_ends_at() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -359,7 +359,7 @@ async fn rewards_top_up_second_time_with_earlier_distribution_ends_at() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64

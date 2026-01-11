@@ -1,5 +1,5 @@
 use crate::{asserts::assert_and_get_pool_and_mining, utils::AccountLoader};
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
+use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
 pub fn process_decrease_rewards<'a>(
     program_id: &Pubkey,

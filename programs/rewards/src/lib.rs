@@ -11,6 +11,6 @@ pub mod instructions;
 pub mod state;
 pub mod utils;
 
-pub use solana_program;
+pub use trezoa_program;
 
-solana_program::declare_id!("BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR");
+trezoa_program::declare_id!("BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR");

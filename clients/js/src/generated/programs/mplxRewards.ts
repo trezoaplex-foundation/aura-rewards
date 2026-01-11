@@ -11,19 +11,19 @@ import {
   Context,
   Program,
   PublicKey,
-} from '@metaplex-foundation/umi';
+} from '@trezoaplex-foundation/umi';
 import {
   getMplxRewardsErrorFromCode,
   getMplxRewardsErrorFromName,
 } from '../errors';
 
-export const MPLX_REWARDS_PROGRAM_ID =
+export const TPLX_REWARDS_PROGRAM_ID =
   'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR' as PublicKey<'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'>;
 
 export function createMplxRewardsProgram(): Program {
   return {
-    name: 'mplxRewards',
-    publicKey: MPLX_REWARDS_PROGRAM_ID,
+    name: 'tplxRewards',
+    publicKey: TPLX_REWARDS_PROGRAM_ID,
     getErrorFromCode(code: number, cause?: Error) {
       return getMplxRewardsErrorFromCode(code, this, cause);
     },
@@ -40,7 +40,7 @@ export function getMplxRewardsProgram<T extends Program = Program>(
   context: Pick<Context, 'programs'>,
   clusterFilter?: ClusterFilter
 ): T {
-  return context.programs.get<T>('mplxRewards', clusterFilter);
+  return context.programs.get<T>('tplxRewards', clusterFilter);
 }
 
 export function getMplxRewardsProgramId(
@@ -48,8 +48,8 @@ export function getMplxRewardsProgramId(
   clusterFilter?: ClusterFilter
 ): PublicKey {
   return context.programs.getPublicKey(
-    'mplxRewards',
-    MPLX_REWARDS_PROGRAM_ID,
+    'tplxRewards',
+    TPLX_REWARDS_PROGRAM_ID,
     clusterFilter
   );
 }

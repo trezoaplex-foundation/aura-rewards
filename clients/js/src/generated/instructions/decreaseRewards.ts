@@ -13,7 +13,7 @@ import {
   Signer,
   TransactionBuilder,
   transactionBuilder,
-} from '@metaplex-foundation/umi';
+} from '@trezoaplex-foundation/umi';
 import {
   Serializer,
   mapSerializer,
@@ -21,7 +21,7 @@ import {
   struct,
   u64,
   u8,
-} from '@metaplex-foundation/umi/serializers';
+} from '@trezoaplex-foundation/umi/serializers';
 import {
   ResolvedAccount,
   ResolvedAccountsWithIndices,
@@ -84,7 +84,7 @@ export function decreaseRewards(
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
-    'mplxRewards',
+    'tplxRewards',
     'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'
   );
 

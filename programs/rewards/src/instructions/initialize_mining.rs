@@ -3,7 +3,7 @@ use crate::{
     state::{Mining, WrappedMining},
     utils::{find_mining_program_address, AccountLoader},
 };
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program::invoke_signed, pubkey::Pubkey,
     rent::Rent, system_instruction, system_program, sysvar::Sysvar,
 };

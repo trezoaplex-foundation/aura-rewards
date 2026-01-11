@@ -14,14 +14,14 @@ import {
   TransactionBuilder,
   publicKey,
   transactionBuilder,
-} from '@metaplex-foundation/umi';
+} from '@trezoaplex-foundation/umi';
 import {
   Serializer,
   mapSerializer,
   publicKey as publicKeySerializer,
   struct,
   u8,
-} from '@metaplex-foundation/umi/serializers';
+} from '@trezoaplex-foundation/umi/serializers';
 import {
   ResolvedAccount,
   ResolvedAccountsWithIndices,
@@ -93,7 +93,7 @@ export function initializePool(
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
-    'mplxRewards',
+    'tplxRewards',
     'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'
   );
 

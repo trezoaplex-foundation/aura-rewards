@@ -3,7 +3,7 @@ use crate::{
     error::MplxRewardsError,
     utils::{get_delegate_mining, verify_delegate_mining_address, AccountLoader},
 };
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
+use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
 pub fn process_change_delegate<'a>(
     program_id: &Pubkey,

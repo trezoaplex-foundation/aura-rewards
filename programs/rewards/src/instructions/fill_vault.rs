@@ -4,7 +4,7 @@ use crate::{
     state::WrappedRewardPool,
     utils::{get_curr_unix_ts, spl_transfer, AccountLoader, SafeArithmeticOperations},
 };
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, clock::SECONDS_PER_DAY, entrypoint::ProgramResult, pubkey::Pubkey,
 };
 
@@ -17,11 +17,11 @@ pub fn process_fill_vault<'a>(
     let account_info_iter = &mut accounts.iter().enumerate();
 
     let reward_pool = AccountLoader::next_with_owner(account_info_iter, program_id)?;
-    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
-    let vault = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
+    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
+    let vault = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
     let fill_authority = AccountLoader::next_signer(account_info_iter)?;
-    let source_token_account = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
-    let _token_program = AccountLoader::next_with_key(account_info_iter, &spl_token::id())?;
+    let source_token_account = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
+    let _token_program = AccountLoader::next_with_key(account_info_iter, &tpl_token::id())?;
 
     if rewards == 0 {
         return Err(MplxRewardsError::RewardsMustBeGreaterThanZero.into());

@@ -1,6 +1,6 @@
 use crate::{asserts::assert_account_key, state::WrappedRewardPool, utils::AccountLoader};
 
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
+use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
 pub fn process_distribute_rewards<'a>(
     program_id: &Pubkey,

@@ -4,11 +4,11 @@ use crate::{
     state::{RewardPool, WrappedRewardPool},
     utils::{create_account, find_vault_program_address, initialize_account, AccountLoader},
 };
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program_pack::IsInitialized,
     pubkey::Pubkey, rent::Rent, system_program, sysvar::SysvarId,
 };
-use spl_token::state::Account as SplTokenAccount;
+use tpl_token::state::Account as SplTokenAccount;
 
 pub fn process_initialize_pool<'a>(
     program_id: &Pubkey,
@@ -19,12 +19,12 @@ pub fn process_initialize_pool<'a>(
     let account_info_iter = &mut accounts.iter().enumerate();
 
     let reward_pool = AccountLoader::next_with_owner(account_info_iter, program_id)?;
-    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &spl_token::id())?;
+    let reward_mint = AccountLoader::next_with_owner(account_info_iter, &tpl_token::id())?;
     let reward_vault = AccountLoader::next_uninitialized(account_info_iter)?;
     let payer = AccountLoader::next_signer(account_info_iter)?;
     let deposit_authority = AccountLoader::next_signer(account_info_iter)?;
     let rent = AccountLoader::next_with_key(account_info_iter, &Rent::id())?;
-    let _token_program = AccountLoader::next_with_key(account_info_iter, &spl_token::id())?;
+    let _token_program = AccountLoader::next_with_key(account_info_iter, &tpl_token::id())?;
     let _system_program = AccountLoader::next_with_key(account_info_iter, &system_program::id())?;
 
     assert_account_owner(reward_pool, program_id)?;
@@ -47,7 +47,7 @@ pub fn process_initialize_pool<'a>(
     ];
 
     create_account::<SplTokenAccount>(
-        &spl_token::id(),
+        &tpl_token::id(),
         payer.clone(),
         reward_vault.clone(),
         &[vault_seeds],

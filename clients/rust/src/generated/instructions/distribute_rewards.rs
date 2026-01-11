@@ -11,26 +11,26 @@ use borsh::BorshSerialize;
 /// Accounts.
 pub struct DistributeRewards {
     /// The address of the reward pool
-    pub reward_pool: solana_program::pubkey::Pubkey,
+    pub reward_pool: trezoa_program::pubkey::Pubkey,
     /// The address of Authority who is eligble for distributiong rewards for users
-    pub distribute_authority: solana_program::pubkey::Pubkey,
+    pub distribute_authority: trezoa_program::pubkey::Pubkey,
 }
 
-impl DistributeRewards {
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+itpl DistributeRewards {
+    pub fn instruction(&self) -> trezoa_program::instruction::Instruction {
         self.instruction_with_remaining_accounts(&[])
     }
     #[allow(clippy::vec_init_then_push)]
     pub fn instruction_with_remaining_accounts(
         &self,
-        remaining_accounts: &[solana_program::instruction::AccountMeta],
-    ) -> solana_program::instruction::Instruction {
+        remaining_accounts: &[trezoa_program::instruction::AccountMeta],
+    ) -> trezoa_program::instruction::Instruction {
         let mut accounts = Vec::with_capacity(2 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.reward_pool,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             self.distribute_authority,
             true,
         ));
@@ -39,8 +39,8 @@ impl DistributeRewards {
             .try_to_vec()
             .unwrap();
 
-        solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         }
@@ -52,7 +52,7 @@ pub struct DistributeRewardsInstructionData {
     discriminator: u8,
 }
 
-impl DistributeRewardsInstructionData {
+itpl DistributeRewardsInstructionData {
     pub fn new() -> Self {
         Self { discriminator: 7 }
     }
@@ -66,18 +66,18 @@ impl DistributeRewardsInstructionData {
 ///   1. `[signer]` distribute_authority
 #[derive(Default)]
 pub struct DistributeRewardsBuilder {
-    reward_pool: Option<solana_program::pubkey::Pubkey>,
-    distribute_authority: Option<solana_program::pubkey::Pubkey>,
-    __remaining_accounts: Vec<solana_program::instruction::AccountMeta>,
+    reward_pool: Option<trezoa_program::pubkey::Pubkey>,
+    distribute_authority: Option<trezoa_program::pubkey::Pubkey>,
+    __remaining_accounts: Vec<trezoa_program::instruction::AccountMeta>,
 }
 
-impl DistributeRewardsBuilder {
+itpl DistributeRewardsBuilder {
     pub fn new() -> Self {
         Self::default()
     }
     /// The address of the reward pool
     #[inline(always)]
-    pub fn reward_pool(&mut self, reward_pool: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn reward_pool(&mut self, reward_pool: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.reward_pool = Some(reward_pool);
         self
     }
@@ -85,7 +85,7 @@ impl DistributeRewardsBuilder {
     #[inline(always)]
     pub fn distribute_authority(
         &mut self,
-        distribute_authority: solana_program::pubkey::Pubkey,
+        distribute_authority: trezoa_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.distribute_authority = Some(distribute_authority);
         self
@@ -94,7 +94,7 @@ impl DistributeRewardsBuilder {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: solana_program::instruction::AccountMeta,
+        account: trezoa_program::instruction::AccountMeta,
     ) -> &mut Self {
         self.__remaining_accounts.push(account);
         self
@@ -103,13 +103,13 @@ impl DistributeRewardsBuilder {
     #[inline(always)]
     pub fn add_remaining_accounts(
         &mut self,
-        accounts: &[solana_program::instruction::AccountMeta],
+        accounts: &[trezoa_program::instruction::AccountMeta],
     ) -> &mut Self {
         self.__remaining_accounts.extend_from_slice(accounts);
         self
     }
     #[allow(clippy::clone_on_copy)]
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+    pub fn instruction(&self) -> trezoa_program::instruction::Instruction {
         let accounts = DistributeRewards {
             reward_pool: self.reward_pool.expect("reward_pool is not set"),
             distribute_authority: self
@@ -124,24 +124,24 @@ impl DistributeRewardsBuilder {
 /// `distribute_rewards` CPI accounts.
 pub struct DistributeRewardsCpiAccounts<'a, 'b> {
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of Authority who is eligble for distributiong rewards for users
-    pub distribute_authority: &'b solana_program::account_info::AccountInfo<'a>,
+    pub distribute_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
 }
 
 /// `distribute_rewards` CPI instruction.
 pub struct DistributeRewardsCpi<'a, 'b> {
     /// The program to invoke.
-    pub __program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub __program: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of Authority who is eligble for distributiong rewards for users
-    pub distribute_authority: &'b solana_program::account_info::AccountInfo<'a>,
+    pub distribute_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
 }
 
-impl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
+itpl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
     pub fn new(
-        program: &'b solana_program::account_info::AccountInfo<'a>,
+        program: &'b trezoa_program::account_info::AccountInfo<'a>,
         accounts: DistributeRewardsCpiAccounts<'a, 'b>,
     ) -> Self {
         Self {
@@ -151,25 +151,25 @@ impl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
         }
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], &[])
     }
     #[inline(always)]
     pub fn invoke_with_remaining_accounts(
         &self,
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], remaining_accounts)
     }
     #[inline(always)]
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(signers_seeds, &[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -178,22 +178,22 @@ impl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
         &self,
         signers_seeds: &[&[&[u8]]],
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let mut accounts = Vec::with_capacity(2 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.reward_pool.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             *self.distribute_authority.key,
             true,
         ));
         remaining_accounts.iter().for_each(|remaining_account| {
-            accounts.push(solana_program::instruction::AccountMeta {
+            accounts.push(trezoa_program::instruction::AccountMeta {
                 pubkey: *remaining_account.0.key,
                 is_signer: remaining_account.1,
                 is_writable: remaining_account.2,
@@ -203,8 +203,8 @@ impl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
             .try_to_vec()
             .unwrap();
 
-        let instruction = solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        let instruction = trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         };
@@ -217,9 +217,9 @@ impl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
             .for_each(|remaining_account| account_infos.push(remaining_account.0.clone()));
 
         if signers_seeds.is_empty() {
-            solana_program::program::invoke(&instruction, &account_infos)
+            trezoa_program::program::invoke(&instruction, &account_infos)
         } else {
-            solana_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
+            trezoa_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
         }
     }
 }
@@ -234,8 +234,8 @@ pub struct DistributeRewardsCpiBuilder<'a, 'b> {
     instruction: Box<DistributeRewardsCpiBuilderInstruction<'a, 'b>>,
 }
 
-impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
-    pub fn new(program: &'b solana_program::account_info::AccountInfo<'a>) -> Self {
+itpl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
+    pub fn new(program: &'b trezoa_program::account_info::AccountInfo<'a>) -> Self {
         let instruction = Box::new(DistributeRewardsCpiBuilderInstruction {
             __program: program,
             reward_pool: None,
@@ -248,7 +248,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn reward_pool(
         &mut self,
-        reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+        reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.reward_pool = Some(reward_pool);
         self
@@ -257,7 +257,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn distribute_authority(
         &mut self,
-        distribute_authority: &'b solana_program::account_info::AccountInfo<'a>,
+        distribute_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.distribute_authority = Some(distribute_authority);
         self
@@ -266,7 +266,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: &'b solana_program::account_info::AccountInfo<'a>,
+        account: &'b trezoa_program::account_info::AccountInfo<'a>,
         is_writable: bool,
         is_signer: bool,
     ) -> &mut Self {
@@ -283,7 +283,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
     pub fn add_remaining_accounts(
         &mut self,
         accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
@@ -294,7 +294,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
         self
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed(&[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -302,7 +302,7 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let instruction = DistributeRewardsCpi {
             __program: self.instruction.__program,
 
@@ -324,12 +324,12 @@ impl<'a, 'b> DistributeRewardsCpiBuilder<'a, 'b> {
 }
 
 struct DistributeRewardsCpiBuilderInstruction<'a, 'b> {
-    __program: &'b solana_program::account_info::AccountInfo<'a>,
-    reward_pool: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    distribute_authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    __program: &'b trezoa_program::account_info::AccountInfo<'a>,
+    reward_pool: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    distribute_authority: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
     /// Additional instruction accounts `(AccountInfo, is_writable, is_signer)`.
     __remaining_accounts: Vec<(
-        &'b solana_program::account_info::AccountInfo<'a>,
+        &'b trezoa_program::account_info::AccountInfo<'a>,
         bool,
         bool,
     )>,

@@ -7,7 +7,7 @@
 
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
-use solana_program::pubkey::Pubkey;
+use trezoa_program::pubkey::Pubkey;
 
 #[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -40,7 +40,7 @@ pub struct RewardPool {
     pub data: [u8; 7],
 }
 
-impl RewardPool {
+itpl RewardPool {
     pub const LEN: usize = 176;
 
     #[inline(always)]
@@ -50,11 +50,11 @@ impl RewardPool {
     }
 }
 
-impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for RewardPool {
+itpl<'a> TryFrom<&trezoa_program::account_info::AccountInfo<'a>> for RewardPool {
     type Error = std::io::Error;
 
     fn try_from(
-        account_info: &solana_program::account_info::AccountInfo<'a>,
+        account_info: &trezoa_program::account_info::AccountInfo<'a>,
     ) -> Result<Self, Self::Error> {
         let mut data: &[u8] = &(*account_info.data).borrow();
         Self::deserialize(&mut data)

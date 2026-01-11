@@ -2,7 +2,7 @@
 
 use borsh::{BorshDeserialize, BorshSerialize};
 use shank::{ShankContext, ShankInstruction};
-use solana_program::{
+use trezoa_program::{
     instruction::{AccountMeta, Instruction},
     pubkey::Pubkey,
     system_program, sysvar,
@@ -187,7 +187,7 @@ pub fn initialize_pool(
         AccountMeta::new(*payer, true),
         AccountMeta::new_readonly(*deposit_authority, true),
         AccountMeta::new_readonly(sysvar::rent::id(), false),
-        AccountMeta::new_readonly(spl_token::id(), false),
+        AccountMeta::new_readonly(tpl_token::id(), false),
         AccountMeta::new_readonly(system_program::id(), false),
     ];
 
@@ -219,7 +219,7 @@ pub fn fill_vault(
         AccountMeta::new(*vault, false),
         AccountMeta::new_readonly(*authority, true),
         AccountMeta::new(*from, false),
-        AccountMeta::new_readonly(spl_token::id(), false),
+        AccountMeta::new_readonly(tpl_token::id(), false),
     ];
 
     Instruction::new_with_borsh(
@@ -338,7 +338,7 @@ pub fn claim(
         AccountMeta::new_readonly(*mining_owner, true),
         AccountMeta::new_readonly(*deposit_authority, true),
         AccountMeta::new(*mining_owner_reward_token, false),
-        AccountMeta::new_readonly(spl_token::id(), false),
+        AccountMeta::new_readonly(tpl_token::id(), false),
     ];
 
     Instruction::new_with_borsh(*program_id, &RewardsInstruction::Claim, accounts)

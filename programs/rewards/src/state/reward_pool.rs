@@ -6,7 +6,7 @@ use crate::{
 use bytemuck::{Pod, Zeroable};
 use shank::ShankAccount;
 use sokoban::{NodeAllocatorMap, ZeroCopy};
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo,
     clock::{Clock, SECONDS_PER_DAY},
     entrypoint::ProgramResult,
@@ -42,7 +42,7 @@ pub struct WrappedImmutableRewardPool<'a> {
     pub cumulative_index: &'a CumulativeIndex,
 }
 
-impl<'a> WrappedImmutableRewardPool<'a> {
+itpl<'a> WrappedImmutableRewardPool<'a> {
     pub fn from_bytes(bytes: &'a [u8]) -> Result<Self, ProgramError> {
         let (pool, trees) = bytes.split_at(RewardPool::LEN);
         let (weighted_stake_diffs, cumulative_index) =
@@ -65,7 +65,7 @@ impl<'a> WrappedImmutableRewardPool<'a> {
     }
 }
 
-impl<'a> WrappedRewardPool<'a> {
+itpl<'a> WrappedRewardPool<'a> {
     pub const LEN: usize = 64480;
 
     pub fn from_bytes_mut(bytes: &'a mut [u8]) -> Result<Self, ProgramError> {
@@ -455,9 +455,9 @@ pub struct RewardPool {
     pub data: [u8; 7],
 }
 
-impl ZeroCopy for RewardPool {}
+itpl ZeroCopy for RewardPool {}
 
-impl RewardPool {
+itpl RewardPool {
     pub const LEN: usize = std::mem::size_of::<RewardPool>();
 
     /// Init reward pool
@@ -517,7 +517,7 @@ impl RewardPool {
     }
 }
 
-impl IsInitialized for RewardPool {
+itpl IsInitialized for RewardPool {
     fn is_initialized(&self) -> bool {
         self.data[0] == <u8>::from(AccountType::RewardPool)
     }
@@ -537,10 +537,10 @@ mod test {
     ) {
         let mut bytes = vec![0; super::WrappedRewardPool::LEN];
         let wrapped_reward_pool = super::WrappedRewardPool::from_bytes_mut(&mut bytes).unwrap();
-        let deposit_authority = solana_program::pubkey::Pubkey::new_unique();
-        let distribute_authority = solana_program::pubkey::Pubkey::new_unique();
-        let fill_authority = solana_program::pubkey::Pubkey::new_unique();
-        let reward_mint = solana_program::pubkey::Pubkey::new_unique();
+        let deposit_authority = trezoa_program::pubkey::Pubkey::new_unique();
+        let distribute_authority = trezoa_program::pubkey::Pubkey::new_unique();
+        let fill_authority = trezoa_program::pubkey::Pubkey::new_unique();
+        let reward_mint = trezoa_program::pubkey::Pubkey::new_unique();
         wrapped_reward_pool.pool.deposit_authority = deposit_authority;
         wrapped_reward_pool.pool.distribute_authority = distribute_authority;
         wrapped_reward_pool.pool.fill_authority = fill_authority;

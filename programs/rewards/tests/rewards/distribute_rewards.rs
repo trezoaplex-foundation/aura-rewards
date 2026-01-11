@@ -1,11 +1,11 @@
 use crate::utils::*;
-use mplx_rewards::utils::LockupPeriod;
-use solana_program::pubkey::Pubkey;
-use solana_program_test::*;
-use solana_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
+use tplx_rewards::utils::LockupPeriod;
+use trezoa_program::pubkey::Pubkey;
+use trezoa_program_test::*;
+use trezoa_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey) {
-    let test = ProgramTest::new("mplx_rewards", mplx_rewards::ID, None);
+    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();
@@ -60,7 +60,7 @@ async fn happy_path() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -119,7 +119,7 @@ async fn unauthorised_rewards_distribution_fail() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -163,7 +163,7 @@ async fn happy_path_with_flex() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -220,7 +220,7 @@ async fn happy_path_with_flex_continious_distribution() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64
@@ -295,7 +295,7 @@ async fn happy_path_with_flex_continious_distribution_with_two_users() {
     // fill vault with tokens
     let distribution_ends_at = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap()
         .unix_timestamp as u64

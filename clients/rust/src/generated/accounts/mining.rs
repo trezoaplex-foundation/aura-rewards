@@ -7,7 +7,7 @@
 
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
-use solana_program::pubkey::Pubkey;
+use trezoa_program::pubkey::Pubkey;
 
 #[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -35,7 +35,7 @@ pub struct Mining {
     pub data: [u8; 7],
 }
 
-impl Mining {
+itpl Mining {
     pub const LEN: usize = 144;
 
     #[inline(always)]
@@ -45,11 +45,11 @@ impl Mining {
     }
 }
 
-impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for Mining {
+itpl<'a> TryFrom<&trezoa_program::account_info::AccountInfo<'a>> for Mining {
     type Error = std::io::Error;
 
     fn try_from(
-        account_info: &solana_program::account_info::AccountInfo<'a>,
+        account_info: &trezoa_program::account_info::AccountInfo<'a>,
     ) -> Result<Self, Self::Error> {
         let mut data: &[u8] = &(*account_info.data).borrow();
         Self::deserialize(&mut data)

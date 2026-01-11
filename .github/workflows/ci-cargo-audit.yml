@@ -19,7 +19,7 @@ on:
   #      - 'Cargo.toml'
   #      - 'Cargo.lock'
 
-  # Example of running scheduled scans at 6AM UTC every Monday to regularly check for vulnerable dependencies
+  # Exatple of running scheduled scans at 6AM UTC every Monday to regularly check for vulnerable dependencies
   #  schedule:
   #  - cron: '0 6 * * 1'
 

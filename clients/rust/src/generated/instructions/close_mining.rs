@@ -11,52 +11,52 @@ use borsh::BorshSerialize;
 /// Accounts.
 pub struct CloseMining {
     /// The address of the user's mining account
-    pub mining: solana_program::pubkey::Pubkey,
+    pub mining: trezoa_program::pubkey::Pubkey,
     /// The end user the mining accounts belongs to
-    pub mining_owner: solana_program::pubkey::Pubkey,
+    pub mining_owner: trezoa_program::pubkey::Pubkey,
     /// The address where lamports from account closing will be transferred
-    pub target_account: solana_program::pubkey::Pubkey,
+    pub target_account: trezoa_program::pubkey::Pubkey,
 
-    pub deposit_authority: solana_program::pubkey::Pubkey,
+    pub deposit_authority: trezoa_program::pubkey::Pubkey,
     /// The address of the reward pool
-    pub reward_pool: solana_program::pubkey::Pubkey,
+    pub reward_pool: trezoa_program::pubkey::Pubkey,
 }
 
-impl CloseMining {
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+itpl CloseMining {
+    pub fn instruction(&self) -> trezoa_program::instruction::Instruction {
         self.instruction_with_remaining_accounts(&[])
     }
     #[allow(clippy::vec_init_then_push)]
     pub fn instruction_with_remaining_accounts(
         &self,
-        remaining_accounts: &[solana_program::instruction::AccountMeta],
-    ) -> solana_program::instruction::Instruction {
+        remaining_accounts: &[trezoa_program::instruction::AccountMeta],
+    ) -> trezoa_program::instruction::Instruction {
         let mut accounts = Vec::with_capacity(5 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             self.mining,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             self.mining_owner,
             true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.target_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             self.deposit_authority,
             true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.reward_pool,
             false,
         ));
         accounts.extend_from_slice(remaining_accounts);
         let data = CloseMiningInstructionData::new().try_to_vec().unwrap();
 
-        solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         }
@@ -68,7 +68,7 @@ pub struct CloseMiningInstructionData {
     discriminator: u8,
 }
 
-impl CloseMiningInstructionData {
+itpl CloseMiningInstructionData {
     pub fn new() -> Self {
         Self { discriminator: 8 }
     }
@@ -85,47 +85,47 @@ impl CloseMiningInstructionData {
 ///   4. `[writable]` reward_pool
 #[derive(Default)]
 pub struct CloseMiningBuilder {
-    mining: Option<solana_program::pubkey::Pubkey>,
-    mining_owner: Option<solana_program::pubkey::Pubkey>,
-    target_account: Option<solana_program::pubkey::Pubkey>,
-    deposit_authority: Option<solana_program::pubkey::Pubkey>,
-    reward_pool: Option<solana_program::pubkey::Pubkey>,
-    __remaining_accounts: Vec<solana_program::instruction::AccountMeta>,
+    mining: Option<trezoa_program::pubkey::Pubkey>,
+    mining_owner: Option<trezoa_program::pubkey::Pubkey>,
+    target_account: Option<trezoa_program::pubkey::Pubkey>,
+    deposit_authority: Option<trezoa_program::pubkey::Pubkey>,
+    reward_pool: Option<trezoa_program::pubkey::Pubkey>,
+    __remaining_accounts: Vec<trezoa_program::instruction::AccountMeta>,
 }
 
-impl CloseMiningBuilder {
+itpl CloseMiningBuilder {
     pub fn new() -> Self {
         Self::default()
     }
     /// The address of the user's mining account
     #[inline(always)]
-    pub fn mining(&mut self, mining: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn mining(&mut self, mining: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.mining = Some(mining);
         self
     }
     /// The end user the mining accounts belongs to
     #[inline(always)]
-    pub fn mining_owner(&mut self, mining_owner: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn mining_owner(&mut self, mining_owner: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.mining_owner = Some(mining_owner);
         self
     }
     /// The address where lamports from account closing will be transferred
     #[inline(always)]
-    pub fn target_account(&mut self, target_account: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn target_account(&mut self, target_account: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.target_account = Some(target_account);
         self
     }
     #[inline(always)]
     pub fn deposit_authority(
         &mut self,
-        deposit_authority: solana_program::pubkey::Pubkey,
+        deposit_authority: trezoa_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.deposit_authority = Some(deposit_authority);
         self
     }
     /// The address of the reward pool
     #[inline(always)]
-    pub fn reward_pool(&mut self, reward_pool: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn reward_pool(&mut self, reward_pool: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.reward_pool = Some(reward_pool);
         self
     }
@@ -133,7 +133,7 @@ impl CloseMiningBuilder {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: solana_program::instruction::AccountMeta,
+        account: trezoa_program::instruction::AccountMeta,
     ) -> &mut Self {
         self.__remaining_accounts.push(account);
         self
@@ -142,13 +142,13 @@ impl CloseMiningBuilder {
     #[inline(always)]
     pub fn add_remaining_accounts(
         &mut self,
-        accounts: &[solana_program::instruction::AccountMeta],
+        accounts: &[trezoa_program::instruction::AccountMeta],
     ) -> &mut Self {
         self.__remaining_accounts.extend_from_slice(accounts);
         self
     }
     #[allow(clippy::clone_on_copy)]
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+    pub fn instruction(&self) -> trezoa_program::instruction::Instruction {
         let accounts = CloseMining {
             mining: self.mining.expect("mining is not set"),
             mining_owner: self.mining_owner.expect("mining_owner is not set"),
@@ -166,36 +166,36 @@ impl CloseMiningBuilder {
 /// `close_mining` CPI accounts.
 pub struct CloseMiningCpiAccounts<'a, 'b> {
     /// The address of the user's mining account
-    pub mining: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The end user the mining accounts belongs to
-    pub mining_owner: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining_owner: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address where lamports from account closing will be transferred
-    pub target_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub target_account: &'b trezoa_program::account_info::AccountInfo<'a>,
 
-    pub deposit_authority: &'b solana_program::account_info::AccountInfo<'a>,
+    pub deposit_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
 }
 
 /// `close_mining` CPI instruction.
 pub struct CloseMiningCpi<'a, 'b> {
     /// The program to invoke.
-    pub __program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub __program: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the user's mining account
-    pub mining: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The end user the mining accounts belongs to
-    pub mining_owner: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining_owner: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address where lamports from account closing will be transferred
-    pub target_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub target_account: &'b trezoa_program::account_info::AccountInfo<'a>,
 
-    pub deposit_authority: &'b solana_program::account_info::AccountInfo<'a>,
+    pub deposit_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
 }
 
-impl<'a, 'b> CloseMiningCpi<'a, 'b> {
+itpl<'a, 'b> CloseMiningCpi<'a, 'b> {
     pub fn new(
-        program: &'b solana_program::account_info::AccountInfo<'a>,
+        program: &'b trezoa_program::account_info::AccountInfo<'a>,
         accounts: CloseMiningCpiAccounts<'a, 'b>,
     ) -> Self {
         Self {
@@ -208,25 +208,25 @@ impl<'a, 'b> CloseMiningCpi<'a, 'b> {
         }
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], &[])
     }
     #[inline(always)]
     pub fn invoke_with_remaining_accounts(
         &self,
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], remaining_accounts)
     }
     #[inline(always)]
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(signers_seeds, &[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -235,34 +235,34 @@ impl<'a, 'b> CloseMiningCpi<'a, 'b> {
         &self,
         signers_seeds: &[&[&[u8]]],
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let mut accounts = Vec::with_capacity(5 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             *self.mining.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             *self.mining_owner.key,
             true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.target_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             *self.deposit_authority.key,
             true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.reward_pool.key,
             false,
         ));
         remaining_accounts.iter().for_each(|remaining_account| {
-            accounts.push(solana_program::instruction::AccountMeta {
+            accounts.push(trezoa_program::instruction::AccountMeta {
                 pubkey: *remaining_account.0.key,
                 is_signer: remaining_account.1,
                 is_writable: remaining_account.2,
@@ -270,8 +270,8 @@ impl<'a, 'b> CloseMiningCpi<'a, 'b> {
         });
         let data = CloseMiningInstructionData::new().try_to_vec().unwrap();
 
-        let instruction = solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        let instruction = trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         };
@@ -287,9 +287,9 @@ impl<'a, 'b> CloseMiningCpi<'a, 'b> {
             .for_each(|remaining_account| account_infos.push(remaining_account.0.clone()));
 
         if signers_seeds.is_empty() {
-            solana_program::program::invoke(&instruction, &account_infos)
+            trezoa_program::program::invoke(&instruction, &account_infos)
         } else {
-            solana_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
+            trezoa_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
         }
     }
 }
@@ -307,8 +307,8 @@ pub struct CloseMiningCpiBuilder<'a, 'b> {
     instruction: Box<CloseMiningCpiBuilderInstruction<'a, 'b>>,
 }
 
-impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
-    pub fn new(program: &'b solana_program::account_info::AccountInfo<'a>) -> Self {
+itpl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
+    pub fn new(program: &'b trezoa_program::account_info::AccountInfo<'a>) -> Self {
         let instruction = Box::new(CloseMiningCpiBuilderInstruction {
             __program: program,
             mining: None,
@@ -324,7 +324,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn mining(
         &mut self,
-        mining: &'b solana_program::account_info::AccountInfo<'a>,
+        mining: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.mining = Some(mining);
         self
@@ -333,7 +333,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn mining_owner(
         &mut self,
-        mining_owner: &'b solana_program::account_info::AccountInfo<'a>,
+        mining_owner: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.mining_owner = Some(mining_owner);
         self
@@ -342,7 +342,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn target_account(
         &mut self,
-        target_account: &'b solana_program::account_info::AccountInfo<'a>,
+        target_account: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.target_account = Some(target_account);
         self
@@ -350,7 +350,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn deposit_authority(
         &mut self,
-        deposit_authority: &'b solana_program::account_info::AccountInfo<'a>,
+        deposit_authority: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.deposit_authority = Some(deposit_authority);
         self
@@ -359,7 +359,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn reward_pool(
         &mut self,
-        reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+        reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.reward_pool = Some(reward_pool);
         self
@@ -368,7 +368,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: &'b solana_program::account_info::AccountInfo<'a>,
+        account: &'b trezoa_program::account_info::AccountInfo<'a>,
         is_writable: bool,
         is_signer: bool,
     ) -> &mut Self {
@@ -385,7 +385,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     pub fn add_remaining_accounts(
         &mut self,
         accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
@@ -396,7 +396,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
         self
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed(&[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -404,7 +404,7 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let instruction = CloseMiningCpi {
             __program: self.instruction.__program,
 
@@ -438,15 +438,15 @@ impl<'a, 'b> CloseMiningCpiBuilder<'a, 'b> {
 }
 
 struct CloseMiningCpiBuilderInstruction<'a, 'b> {
-    __program: &'b solana_program::account_info::AccountInfo<'a>,
-    mining: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    mining_owner: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    target_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    deposit_authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    reward_pool: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    __program: &'b trezoa_program::account_info::AccountInfo<'a>,
+    mining: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    mining_owner: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    target_account: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    deposit_authority: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    reward_pool: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
     /// Additional instruction accounts `(AccountInfo, is_writable, is_signer)`.
     __remaining_accounts: Vec<(
-        &'b solana_program::account_info::AccountInfo<'a>,
+        &'b trezoa_program::account_info::AccountInfo<'a>,
         bool,
         bool,
     )>,

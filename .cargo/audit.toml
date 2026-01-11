@@ -1,5 +1,5 @@
 [advisories]
-# Ignore unfixable vulnerabilities for now. In new solana version
+# Ignore unfixable vulnerabilities for now. In new trezoa version
 #  it will be fixed.
 ignore = ["RUSTSEC-2024-0344", "RUSTSEC-2022-0093"]
 

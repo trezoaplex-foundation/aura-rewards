@@ -1,11 +1,11 @@
 #![cfg(feature = "test-sbf")]
 
 // use rewards::{accounts::MyAccount, instructions::CreateBuilder};
-use solana_program_test::tokio;
+use trezoa_program_test::tokio;
 
 #[tokio::test]
 async fn create() {
-    // let mut context = ProgramTest::new("mpl_project_name_program", mpl_project_name::ID, None)
+    // let mut context = ProgramTest::new("tpl_project_name_program", tpl_project_name::ID, None)
     //     .start_with_context()
     //     .await;
 

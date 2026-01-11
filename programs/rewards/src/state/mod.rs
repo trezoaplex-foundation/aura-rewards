@@ -32,7 +32,7 @@ pub enum AccountType {
     Mining,
 }
 
-impl From<u8> for AccountType {
+itpl From<u8> for AccountType {
     fn from(value: u8) -> Self {
         match value {
             0 => AccountType::Uninitialized,
@@ -43,7 +43,7 @@ impl From<u8> for AccountType {
     }
 }
 
-impl From<AccountType> for u8 {
+itpl From<AccountType> for u8 {
     fn from(value: AccountType) -> Self {
         match value {
             AccountType::Uninitialized => 0,

@@ -3,7 +3,7 @@ use std::iter::Enumerate;
 
 use crate::{error::MplxRewardsError, state::WrappedImmutableMining};
 use borsh::{BorshDeserialize, BorshSerialize};
-use solana_program::{
+use trezoa_program::{
     account_info::AccountInfo,
     clock::{Clock, SECONDS_PER_DAY},
     entrypoint::ProgramResult,
@@ -69,15 +69,15 @@ pub fn create_account<'a, S: Pack>(
     invoke_signed(&ix, &[from, to], signers_seeds)
 }
 
-/// Initialize SPL account instruction.
+/// Initialize TPL account instruction.
 pub fn initialize_account<'a>(
     account: AccountInfo<'a>,
     mint: AccountInfo<'a>,
     authority: AccountInfo<'a>,
     rent: AccountInfo<'a>,
 ) -> ProgramResult {
-    let ix = spl_token::instruction::initialize_account(
-        &spl_token::id(),
+    let ix = tpl_token::instruction::initialize_account(
+        &tpl_token::id(),
         account.key,
         mint.key,
         authority.key,
@@ -86,7 +86,7 @@ pub fn initialize_account<'a>(
     invoke(&ix, &[account, mint, authority, rent])
 }
 
-/// SPL transfer instruction.
+/// TPL transfer instruction.
 pub fn spl_transfer<'a>(
     source: AccountInfo<'a>,
     destination: AccountInfo<'a>,
@@ -94,8 +94,8 @@ pub fn spl_transfer<'a>(
     amount: u64,
     signers_seeds: &[&[&[u8]]],
 ) -> Result<(), ProgramError> {
-    let ix = spl_token::instruction::transfer(
-        &spl_token::id(),
+    let ix = tpl_token::instruction::transfer(
+        &tpl_token::id(),
         source.key,
         destination.key,
         authority.key,
@@ -144,7 +144,7 @@ pub fn verify_delegate_mining_address(
 /// Helper for parsing accounts with arbitrary input conditions
 pub struct AccountLoader {}
 
-impl AccountLoader {
+itpl AccountLoader {
     /// Checks that account is not initilized (it's pubkey is empty)
     pub fn next_uninitialized<'a, 'b, I: Iterator<Item = &'a AccountInfo<'b>>>(
         iter: &mut Enumerate<I>,
@@ -244,7 +244,7 @@ pub enum LockupPeriod {
     OneYear,
 }
 
-impl LockupPeriod {
+itpl LockupPeriod {
     /// Converts LockupPeriod into the Multiplier
     /// which will be used in rewards calculations
     pub fn multiplier(&self) -> u64 {
@@ -301,7 +301,7 @@ where
     fn safe_div(&self, amount: Self) -> Result<Self, MplxRewardsError>;
 }
 
-impl SafeArithmeticOperations for u64 {
+itpl SafeArithmeticOperations for u64 {
     fn safe_sub(&self, amount: u64) -> Result<u64, MplxRewardsError> {
         self.checked_sub(amount)
             .ok_or(MplxRewardsError::MathOverflow)
@@ -323,7 +323,7 @@ impl SafeArithmeticOperations for u64 {
     }
 }
 
-impl SafeArithmeticOperations for u128 {
+itpl SafeArithmeticOperations for u128 {
     fn safe_sub(&self, amount: u128) -> Result<u128, MplxRewardsError> {
         self.checked_sub(amount)
             .ok_or(MplxRewardsError::MathOverflow)

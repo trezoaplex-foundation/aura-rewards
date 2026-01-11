@@ -7,46 +7,46 @@
 
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
-use solana_program::pubkey::Pubkey;
+use trezoa_program::pubkey::Pubkey;
 
 /// Accounts.
 pub struct InitializeMining {
     /// The address of the reward pool
-    pub reward_pool: solana_program::pubkey::Pubkey,
+    pub reward_pool: trezoa_program::pubkey::Pubkey,
     /// The address of the mining account which belongs to the user and stores info about user's rewards
-    pub mining: solana_program::pubkey::Pubkey,
+    pub mining: trezoa_program::pubkey::Pubkey,
 
-    pub payer: solana_program::pubkey::Pubkey,
+    pub payer: trezoa_program::pubkey::Pubkey,
     /// The system program
-    pub system_program: solana_program::pubkey::Pubkey,
+    pub system_program: trezoa_program::pubkey::Pubkey,
 }
 
-impl InitializeMining {
+itpl InitializeMining {
     pub fn instruction(
         &self,
         args: InitializeMiningInstructionArgs,
-    ) -> solana_program::instruction::Instruction {
+    ) -> trezoa_program::instruction::Instruction {
         self.instruction_with_remaining_accounts(args, &[])
     }
     #[allow(clippy::vec_init_then_push)]
     pub fn instruction_with_remaining_accounts(
         &self,
         args: InitializeMiningInstructionArgs,
-        remaining_accounts: &[solana_program::instruction::AccountMeta],
-    ) -> solana_program::instruction::Instruction {
+        remaining_accounts: &[trezoa_program::instruction::AccountMeta],
+    ) -> trezoa_program::instruction::Instruction {
         let mut accounts = Vec::with_capacity(4 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.reward_pool,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.mining,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             self.payer, true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             self.system_program,
             false,
         ));
@@ -55,8 +55,8 @@ impl InitializeMining {
         let mut args = args.try_to_vec().unwrap();
         data.append(&mut args);
 
-        solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         }
@@ -68,7 +68,7 @@ pub struct InitializeMiningInstructionData {
     discriminator: u8,
 }
 
-impl InitializeMiningInstructionData {
+itpl InitializeMiningInstructionData {
     pub fn new() -> Self {
         Self { discriminator: 2 }
     }
@@ -90,39 +90,39 @@ pub struct InitializeMiningInstructionArgs {
 ///   3. `[optional]` system_program (default to `11111111111111111111111111111111`)
 #[derive(Default)]
 pub struct InitializeMiningBuilder {
-    reward_pool: Option<solana_program::pubkey::Pubkey>,
-    mining: Option<solana_program::pubkey::Pubkey>,
-    payer: Option<solana_program::pubkey::Pubkey>,
-    system_program: Option<solana_program::pubkey::Pubkey>,
+    reward_pool: Option<trezoa_program::pubkey::Pubkey>,
+    mining: Option<trezoa_program::pubkey::Pubkey>,
+    payer: Option<trezoa_program::pubkey::Pubkey>,
+    system_program: Option<trezoa_program::pubkey::Pubkey>,
     mining_owner: Option<Pubkey>,
-    __remaining_accounts: Vec<solana_program::instruction::AccountMeta>,
+    __remaining_accounts: Vec<trezoa_program::instruction::AccountMeta>,
 }
 
-impl InitializeMiningBuilder {
+itpl InitializeMiningBuilder {
     pub fn new() -> Self {
         Self::default()
     }
     /// The address of the reward pool
     #[inline(always)]
-    pub fn reward_pool(&mut self, reward_pool: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn reward_pool(&mut self, reward_pool: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.reward_pool = Some(reward_pool);
         self
     }
     /// The address of the mining account which belongs to the user and stores info about user's rewards
     #[inline(always)]
-    pub fn mining(&mut self, mining: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn mining(&mut self, mining: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.mining = Some(mining);
         self
     }
     #[inline(always)]
-    pub fn payer(&mut self, payer: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn payer(&mut self, payer: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.payer = Some(payer);
         self
     }
     /// `[optional account, default to '11111111111111111111111111111111']`
     /// The system program
     #[inline(always)]
-    pub fn system_program(&mut self, system_program: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn system_program(&mut self, system_program: trezoa_program::pubkey::Pubkey) -> &mut Self {
         self.system_program = Some(system_program);
         self
     }
@@ -135,7 +135,7 @@ impl InitializeMiningBuilder {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: solana_program::instruction::AccountMeta,
+        account: trezoa_program::instruction::AccountMeta,
     ) -> &mut Self {
         self.__remaining_accounts.push(account);
         self
@@ -144,20 +144,20 @@ impl InitializeMiningBuilder {
     #[inline(always)]
     pub fn add_remaining_accounts(
         &mut self,
-        accounts: &[solana_program::instruction::AccountMeta],
+        accounts: &[trezoa_program::instruction::AccountMeta],
     ) -> &mut Self {
         self.__remaining_accounts.extend_from_slice(accounts);
         self
     }
     #[allow(clippy::clone_on_copy)]
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+    pub fn instruction(&self) -> trezoa_program::instruction::Instruction {
         let accounts = InitializeMining {
             reward_pool: self.reward_pool.expect("reward_pool is not set"),
             mining: self.mining.expect("mining is not set"),
             payer: self.payer.expect("payer is not set"),
             system_program: self
                 .system_program
-                .unwrap_or(solana_program::pubkey!("11111111111111111111111111111111")),
+                .unwrap_or(trezoa_program::pubkey!("11111111111111111111111111111111")),
         };
         let args = InitializeMiningInstructionArgs {
             mining_owner: self.mining_owner.clone().expect("mining_owner is not set"),
@@ -170,34 +170,34 @@ impl InitializeMiningBuilder {
 /// `initialize_mining` CPI accounts.
 pub struct InitializeMiningCpiAccounts<'a, 'b> {
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the mining account which belongs to the user and stores info about user's rewards
-    pub mining: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining: &'b trezoa_program::account_info::AccountInfo<'a>,
 
-    pub payer: &'b solana_program::account_info::AccountInfo<'a>,
+    pub payer: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The system program
-    pub system_program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub system_program: &'b trezoa_program::account_info::AccountInfo<'a>,
 }
 
 /// `initialize_mining` CPI instruction.
 pub struct InitializeMiningCpi<'a, 'b> {
     /// The program to invoke.
-    pub __program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub __program: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the reward pool
-    pub reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+    pub reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The address of the mining account which belongs to the user and stores info about user's rewards
-    pub mining: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mining: &'b trezoa_program::account_info::AccountInfo<'a>,
 
-    pub payer: &'b solana_program::account_info::AccountInfo<'a>,
+    pub payer: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The system program
-    pub system_program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub system_program: &'b trezoa_program::account_info::AccountInfo<'a>,
     /// The arguments for the instruction.
     pub __args: InitializeMiningInstructionArgs,
 }
 
-impl<'a, 'b> InitializeMiningCpi<'a, 'b> {
+itpl<'a, 'b> InitializeMiningCpi<'a, 'b> {
     pub fn new(
-        program: &'b solana_program::account_info::AccountInfo<'a>,
+        program: &'b trezoa_program::account_info::AccountInfo<'a>,
         accounts: InitializeMiningCpiAccounts<'a, 'b>,
         args: InitializeMiningInstructionArgs,
     ) -> Self {
@@ -211,25 +211,25 @@ impl<'a, 'b> InitializeMiningCpi<'a, 'b> {
         }
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], &[])
     }
     #[inline(always)]
     pub fn invoke_with_remaining_accounts(
         &self,
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], remaining_accounts)
     }
     #[inline(always)]
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(signers_seeds, &[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -238,30 +238,30 @@ impl<'a, 'b> InitializeMiningCpi<'a, 'b> {
         &self,
         signers_seeds: &[&[&[u8]]],
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let mut accounts = Vec::with_capacity(4 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.reward_pool.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.mining.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(trezoa_program::instruction::AccountMeta::new(
             *self.payer.key,
             true,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(trezoa_program::instruction::AccountMeta::new_readonly(
             *self.system_program.key,
             false,
         ));
         remaining_accounts.iter().for_each(|remaining_account| {
-            accounts.push(solana_program::instruction::AccountMeta {
+            accounts.push(trezoa_program::instruction::AccountMeta {
                 pubkey: *remaining_account.0.key,
                 is_signer: remaining_account.1,
                 is_writable: remaining_account.2,
@@ -271,8 +271,8 @@ impl<'a, 'b> InitializeMiningCpi<'a, 'b> {
         let mut args = self.__args.try_to_vec().unwrap();
         data.append(&mut args);
 
-        let instruction = solana_program::instruction::Instruction {
-            program_id: crate::MPLX_REWARDS_ID,
+        let instruction = trezoa_program::instruction::Instruction {
+            program_id: crate::TPLX_REWARDS_ID,
             accounts,
             data,
         };
@@ -287,9 +287,9 @@ impl<'a, 'b> InitializeMiningCpi<'a, 'b> {
             .for_each(|remaining_account| account_infos.push(remaining_account.0.clone()));
 
         if signers_seeds.is_empty() {
-            solana_program::program::invoke(&instruction, &account_infos)
+            trezoa_program::program::invoke(&instruction, &account_infos)
         } else {
-            solana_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
+            trezoa_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
         }
     }
 }
@@ -306,8 +306,8 @@ pub struct InitializeMiningCpiBuilder<'a, 'b> {
     instruction: Box<InitializeMiningCpiBuilderInstruction<'a, 'b>>,
 }
 
-impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
-    pub fn new(program: &'b solana_program::account_info::AccountInfo<'a>) -> Self {
+itpl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
+    pub fn new(program: &'b trezoa_program::account_info::AccountInfo<'a>) -> Self {
         let instruction = Box::new(InitializeMiningCpiBuilderInstruction {
             __program: program,
             reward_pool: None,
@@ -323,7 +323,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn reward_pool(
         &mut self,
-        reward_pool: &'b solana_program::account_info::AccountInfo<'a>,
+        reward_pool: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.reward_pool = Some(reward_pool);
         self
@@ -332,13 +332,13 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn mining(
         &mut self,
-        mining: &'b solana_program::account_info::AccountInfo<'a>,
+        mining: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.mining = Some(mining);
         self
     }
     #[inline(always)]
-    pub fn payer(&mut self, payer: &'b solana_program::account_info::AccountInfo<'a>) -> &mut Self {
+    pub fn payer(&mut self, payer: &'b trezoa_program::account_info::AccountInfo<'a>) -> &mut Self {
         self.instruction.payer = Some(payer);
         self
     }
@@ -346,7 +346,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn system_program(
         &mut self,
-        system_program: &'b solana_program::account_info::AccountInfo<'a>,
+        system_program: &'b trezoa_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.system_program = Some(system_program);
         self
@@ -360,7 +360,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: &'b solana_program::account_info::AccountInfo<'a>,
+        account: &'b trezoa_program::account_info::AccountInfo<'a>,
         is_writable: bool,
         is_signer: bool,
     ) -> &mut Self {
@@ -377,7 +377,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     pub fn add_remaining_accounts(
         &mut self,
         accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b trezoa_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
@@ -388,7 +388,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
         self
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> trezoa_program::entrypoint::ProgramResult {
         self.invoke_signed(&[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -396,7 +396,7 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> trezoa_program::entrypoint::ProgramResult {
         let args = InitializeMiningInstructionArgs {
             mining_owner: self
                 .instruction
@@ -430,15 +430,15 @@ impl<'a, 'b> InitializeMiningCpiBuilder<'a, 'b> {
 }
 
 struct InitializeMiningCpiBuilderInstruction<'a, 'b> {
-    __program: &'b solana_program::account_info::AccountInfo<'a>,
-    reward_pool: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    mining: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    payer: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    system_program: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    __program: &'b trezoa_program::account_info::AccountInfo<'a>,
+    reward_pool: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    mining: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    payer: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
+    system_program: Option<&'b trezoa_program::account_info::AccountInfo<'a>>,
     mining_owner: Option<Pubkey>,
     /// Additional instruction accounts `(AccountInfo, is_writable, is_signer)`.
     __remaining_accounts: Vec<(
-        &'b solana_program::account_info::AccountInfo<'a>,
+        &'b trezoa_program::account_info::AccountInfo<'a>,
         bool,
         bool,
     )>,

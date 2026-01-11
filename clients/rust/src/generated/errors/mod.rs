@@ -5,6 +5,6 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-pub(crate) mod mplx_rewards;
+pub(crate) mod tplx_rewards;
 
-pub use self::mplx_rewards::MplxRewardsError;
+pub use self::tplx_rewards::MplxRewardsError;

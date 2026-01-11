@@ -1,4 +1,4 @@
-import { UmiPlugin } from '@metaplex-foundation/umi';
+import { UmiPlugin } from '@trezoaplex-foundation/umi';
 import { createMplxRewardsProgram } from './generated';
 
 export const Rewards = (): UmiPlugin => ({

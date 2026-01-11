@@ -4,7 +4,7 @@ use crate::utils::SafeArithmeticOperations;
 use bytemuck::{Pod, Zeroable};
 use shank::ShankAccount;
 use sokoban::{NodeAllocatorMap, ZeroCopy};
-use solana_program::{
+use trezoa_program::{
     clock::{Clock, SECONDS_PER_DAY},
     entrypoint::ProgramResult,
     program_error::ProgramError,
@@ -34,7 +34,7 @@ pub struct WrappedImmutableMining<'a> {
 
 pub const ACCOUNT_TYPE_BYTE: usize = 0;
 
-impl<'a> WrappedMining<'a> {
+itpl<'a> WrappedMining<'a> {
     pub const LEN: usize =
         std::mem::size_of::<Mining>() + std::mem::size_of::<MiningWeightedStakeDiffs>();
 
@@ -140,9 +140,9 @@ pub struct Mining {
     pub data: [u8; 7],
 }
 
-impl ZeroCopy for Mining {}
+itpl ZeroCopy for Mining {}
 
-impl Mining {
+itpl Mining {
     /// Bytes required to store the `Mining`.
     pub const LEN: usize = std::mem::size_of::<Mining>();
 
@@ -233,13 +233,13 @@ impl Mining {
     }
 }
 
-impl IsInitialized for Mining {
+itpl IsInitialized for Mining {
     fn is_initialized(&self) -> bool {
         self.data[ACCOUNT_TYPE_BYTE] == <u8>::from(AccountType::Mining)
     }
 }
 
-impl<'a> WrappedImmutableMining<'a> {
+itpl<'a> WrappedImmutableMining<'a> {
     pub fn from_bytes(bytes: &'a [u8]) -> Result<Self, ProgramError> {
         let (mining, weighted_stake_diffs) = bytes.split_at(Mining::LEN);
         let mining =
@@ -271,9 +271,9 @@ mod test {
     fn test_can_deserialize_wrapped_immutable_mining_from_bytes_initialized_with_wrapped_mining() {
         let mut bytes = vec![0; super::WrappedMining::LEN];
         let wrapped_mining = super::WrappedMining::from_bytes_mut(&mut bytes).unwrap();
-        let reward_pool = solana_program::pubkey::Pubkey::new_unique();
-        let mining_owner = solana_program::pubkey::Pubkey::new_unique();
-        let reward_mint = solana_program::pubkey::Pubkey::new_unique();
+        let reward_pool = trezoa_program::pubkey::Pubkey::new_unique();
+        let mining_owner = trezoa_program::pubkey::Pubkey::new_unique();
+        let reward_mint = trezoa_program::pubkey::Pubkey::new_unique();
         let index_with_precision = 1234;
         let share = 23456;
         let unclaimed_rewards = 34567;

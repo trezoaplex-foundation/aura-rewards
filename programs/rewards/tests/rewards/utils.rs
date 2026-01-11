@@ -1,16 +1,16 @@
 use std::borrow::{Borrow, BorrowMut};
 
-use mplx_rewards::{error::MplxRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
-use solana_program::{instruction::InstructionError, pubkey::Pubkey};
-use solana_program_test::{BanksClientError, ProgramTestContext};
-use solana_sdk::{
+use tplx_rewards::{error::MplxRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
+use trezoa_program::{instruction::InstructionError, pubkey::Pubkey};
+use trezoa_program_test::{BanksClientError, ProgramTestContext};
+use trezoa_sdk::{
     account::Account,
     program_pack::Pack,
     signature::{Keypair, Signer},
     system_instruction::{self, create_account},
     transaction::{Transaction, TransactionError},
 };
-use spl_token::state::Account as SplTokenAccount;
+use tpl_token::state::Account as SplTokenAccount;
 
 pub type BanksClientResult<T> = Result<T, BanksClientError>;
 
@@ -26,7 +26,7 @@ pub struct TestRewards {
     pub vault_pubkey: Pubkey,
 }
 
-impl TestRewards {
+itpl TestRewards {
     pub fn new(token_mint_pubkey: Pubkey) -> Self {
         let deposit_authority = Keypair::new();
         let fill_authority = Keypair::new();
@@ -39,7 +39,7 @@ impl TestRewards {
                 &reward_pool.pubkey().to_bytes(),
                 &token_mint_pubkey.to_bytes(),
             ],
-            &mplx_rewards::id(),
+            &tplx_rewards::id(),
         );
 
         Self {
@@ -61,15 +61,15 @@ impl TestRewards {
             &self.reward_pool.pubkey(),
             lamports,
             space,
-            &mplx_rewards::id(),
+            &tplx_rewards::id(),
         );
 
         // Initialize mining pool
         let tx = Transaction::new_signed_with_payer(
             &[
                 create_reward_pool_ix,
-                mplx_rewards::instruction::initialize_pool(
-                    &mplx_rewards::id(),
+                tplx_rewards::instruction::initialize_pool(
+                    &tplx_rewards::id(),
                     &self.reward_pool.pubkey(),
                     &self.token_mint_pubkey,
                     &self.vault_pubkey,
@@ -98,12 +98,12 @@ impl TestRewards {
                 mining_owner.pubkey().as_ref(),
                 self.reward_pool.pubkey().as_ref(),
             ],
-            &mplx_rewards::id(),
+            &tplx_rewards::id(),
         );
 
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::initialize_mining(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::initialize_mining(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 &mining_account,
                 &context.payer.pubkey(),
@@ -131,8 +131,8 @@ impl TestRewards {
         amount: u64,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::change_delegate(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::change_delegate(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 mining,
                 &self.deposit_authority.pubkey(),
@@ -162,8 +162,8 @@ impl TestRewards {
         delegate_wallet_addr: &Pubkey,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::deposit_mining(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::deposit_mining(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 mining_account,
                 &self.deposit_authority.pubkey(),
@@ -191,8 +191,8 @@ impl TestRewards {
         stake_expiration_date: Option<u64>,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::slash(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::slash(
+                &tplx_rewards::id(),
                 &self.deposit_authority.pubkey(),
                 &self.reward_pool.pubkey(),
                 mining_account,
@@ -219,8 +219,8 @@ impl TestRewards {
         delegate_wallet_addr: &Pubkey,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::withdraw_mining(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::withdraw_mining(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 mining_account,
                 &self.deposit_authority.pubkey(),
@@ -246,8 +246,8 @@ impl TestRewards {
         distribution_ends_at: u64,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::fill_vault(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::fill_vault(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 &self.token_mint_pubkey,
                 &self.vault_pubkey,
@@ -272,8 +272,8 @@ impl TestRewards {
         user_reward_token: &Pubkey,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::claim(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::claim(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 &self.token_mint_pubkey,
                 &self.vault_pubkey,
@@ -296,8 +296,8 @@ impl TestRewards {
         context: &mut ProgramTestContext,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::distribute_rewards(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::distribute_rewards(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 &authority.pubkey(),
             )],
@@ -324,8 +324,8 @@ impl TestRewards {
         delegate_wallet_addr: &Pubkey,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::extend_stake(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::extend_stake(
+                &tplx_rewards::id(),
                 &self.reward_pool.pubkey(),
                 mining_account,
                 &self.deposit_authority.pubkey(),
@@ -354,8 +354,8 @@ impl TestRewards {
         target_account: &Pubkey,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::close_mining(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::close_mining(
+                &tplx_rewards::id(),
                 mining_account,
                 &mining_owner.pubkey(),
                 target_account,
@@ -379,8 +379,8 @@ impl TestRewards {
         decreased_weighted_stake_number: u64,
     ) -> BanksClientResult<()> {
         let tx = Transaction::new_signed_with_payer(
-            &[mplx_rewards::instruction::decrease_rewards(
-                &mplx_rewards::id(),
+            &[tplx_rewards::instruction::decrease_rewards(
+                &tplx_rewards::id(),
                 &self.deposit_authority.pubkey(),
                 &self.reward_pool.pubkey(),
                 mining_account,
@@ -410,12 +410,12 @@ pub async fn create_token_account(
             system_instruction::create_account(
                 &context.payer.pubkey(),
                 &account.pubkey(),
-                rent.minimum_balance(spl_token::state::Account::LEN) + lamports,
-                spl_token::state::Account::LEN as u64,
-                &spl_token::id(),
+                rent.minimum_balance(tpl_token::state::Account::LEN) + lamports,
+                tpl_token::state::Account::LEN as u64,
+                &tpl_token::id(),
             ),
-            spl_token::instruction::initialize_account(
-                &spl_token::id(),
+            tpl_token::instruction::initialize_account(
+                &tpl_token::id(),
                 &account.pubkey(),
                 mint,
                 manager,
@@ -451,12 +451,12 @@ pub async fn create_mint(
             system_instruction::create_account(
                 &context.payer.pubkey(),
                 &mint.pubkey(),
-                rent.minimum_balance(spl_token::state::Mint::LEN),
-                spl_token::state::Mint::LEN as u64,
-                &spl_token::id(),
+                rent.minimum_balance(tpl_token::state::Mint::LEN),
+                tpl_token::state::Mint::LEN as u64,
+                &tpl_token::id(),
             ),
-            spl_token::instruction::initialize_mint(
-                &spl_token::id(),
+            tpl_token::instruction::initialize_mint(
+                &tpl_token::id(),
                 &mint.pubkey(),
                 manager,
                 None,
@@ -479,8 +479,8 @@ pub async fn mint_tokens(
     amount: u64,
 ) -> BanksClientResult<()> {
     let tx = Transaction::new_signed_with_payer(
-        &[spl_token::instruction::mint_to(
-            &spl_token::id(),
+        &[tpl_token::instruction::mint_to(
+            &tpl_token::id(),
             mint,
             account,
             &context.payer.pubkey(),
@@ -499,7 +499,7 @@ pub async fn mint_tokens(
 pub async fn advance_clock_by_ts(context: &mut ProgramTestContext, ts: i64) -> i64 {
     let old_clock = context
         .banks_client
-        .get_sysvar::<solana_program::clock::Clock>()
+        .get_sysvar::<trezoa_program::clock::Clock>()
         .await
         .unwrap();
 
@@ -563,7 +563,7 @@ pub mod assert_custom_on_chain_error {
         fn assert_on_chain_err(self, expected_err: MplxRewardsError);
     }
 
-    impl<T: Debug> AssertCustomOnChainErr for Result<T, BanksClientError> {
+    itpl<T: Debug> AssertCustomOnChainErr for Result<T, BanksClientError> {
         fn assert_on_chain_err(self, expected_err: MplxRewardsError) {
             assert!(self.is_err());
             match self.unwrap_err() {
