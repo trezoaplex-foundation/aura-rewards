@@ -1,6 +1,6 @@
 use crate::{
     asserts::assert_account_key,
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     state::{WrappedMining, WrappedRewardPool},
     utils::{AccountLoader, SafeArithmeticOperations},
 };
@@ -35,10 +35,10 @@ pub fn process_close_mining<'a>(
         wrapped_mining.refresh_rewards(wrapped_reward_pool.cumulative_index)?;
 
         if wrapped_mining.mining.stake_from_others > 0 {
-            return Err(MplxRewardsError::StakeFromOthersMustBeZero.into());
+            return Err(TrzRewardsError::StakeFromOthersMustBeZero.into());
         }
         if wrapped_mining.mining.unclaimed_rewards != 0 {
-            return Err(MplxRewardsError::RewardsMustBeClaimed.into());
+            return Err(TrzRewardsError::RewardsMustBeClaimed.into());
         }
     }
 

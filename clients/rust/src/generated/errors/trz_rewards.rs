@@ -9,7 +9,7 @@ use num_derive::FromPrimitive;
 use thiserror::Error;
 
 #[derive(Clone, Debug, Eq, Error, FromPrimitive, PartialEq)]
-pub enum MplxRewardsError {
+pub enum TrzRewardsError {
     /// 0 (0x0) - Input account owner
     #[error("Input account owner")]
     InvalidAccountOwner,
@@ -62,7 +62,7 @@ pub enum MplxRewardsError {
     DecreaseRewardsTooBig,
 }
 
-itpl trezoa_program::program_error::PrintProgramError for MplxRewardsError {
+itpl trezoa_program::program_error::PrintProgramError for TrzRewardsError {
     fn print<E>(&self) {
         trezoa_program::msg!(&self.to_string());
     }

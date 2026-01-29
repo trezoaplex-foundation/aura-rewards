@@ -1,5 +1,5 @@
 use crate::utils::{assert_custom_on_chain_error::AssertCustomOnChainErr, *};
-use tplx_rewards::{error::MplxRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
+use trz_rewards::{error::TrzRewardsError, state::WrappedRewardPool, utils::LockupPeriod};
 use trezoa_program::{clock::SECONDS_PER_DAY, program_pack::Pack};
 use trezoa_program_test::*;
 use trezoa_sdk::{signature::Keypair, signer::Signer};
@@ -7,7 +7,7 @@ use tpl_token::state::Account;
 use std::borrow::Borrow;
 
 async fn setup() -> (ProgramTestContext, TestRewards) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();
@@ -146,7 +146,7 @@ async fn zero_amount_of_rewards() {
             distribution_ends_at,
         )
         .await
-        .assert_on_chain_err(MplxRewardsError::RewardsMustBeGreaterThanZero);
+        .assert_on_chain_err(TrzRewardsError::RewardsMustBeGreaterThanZero);
 }
 
 #[tokio::test]

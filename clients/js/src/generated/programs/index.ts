@@ -6,4 +6,4 @@
  * @see https://github.com/trezoaplex-foundation/kinobi
  */
 
-export * from './tplxRewards';
+export * from './trzRewards';

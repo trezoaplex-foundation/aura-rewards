@@ -1,7 +1,7 @@
 //! Arbitrary auxilliary functions
 use std::iter::Enumerate;
 
-use crate::{error::MplxRewardsError, state::WrappedImmutableMining};
+use crate::{error::TrzRewardsError, state::WrappedImmutableMining};
 use borsh::{BorshDeserialize, BorshSerialize};
 use trezoa_program::{
     account_info::AccountInfo,
@@ -133,9 +133,9 @@ pub fn verify_delegate_mining_address(
                 .mining
                 .bump,
         )
-        .map_err(|_| MplxRewardsError::DerivationError)?
+        .map_err(|_| TrzRewardsError::DerivationError)?
     {
-        return Err(MplxRewardsError::InvalidMining.into());
+        return Err(TrzRewardsError::InvalidMining.into());
     }
 
     Ok(())
@@ -179,7 +179,7 @@ itpl AccountLoader {
             acc.owner,
             owner
         );
-        Err(MplxRewardsError::InvalidAccountOwner.into())
+        Err(TrzRewardsError::InvalidAccountOwner.into())
     }
 
     /// Checks whether next account matches a given key
@@ -258,12 +258,12 @@ itpl LockupPeriod {
     }
 
     /// Calculates the time when a lockup should expire
-    pub fn end_timestamp(&self, start_ts: u64) -> Result<u64, MplxRewardsError> {
+    pub fn end_timestamp(&self, start_ts: u64) -> Result<u64, TrzRewardsError> {
         // conversion should be unfailable because negative timestamp means the ts is earlier than 1970y
         let beginning_of_the_day = start_ts - (start_ts % SECONDS_PER_DAY);
 
         match self {
-            LockupPeriod::None => Err(MplxRewardsError::InvalidLockupPeriod),
+            LockupPeriod::None => Err(TrzRewardsError::InvalidLockupPeriod),
             LockupPeriod::ThreeMonths => Ok(beginning_of_the_day + SECONDS_PER_DAY * 90),
             LockupPeriod::SixMonths => Ok(beginning_of_the_day + SECONDS_PER_DAY * 180),
             LockupPeriod::OneYear => Ok(beginning_of_the_day + SECONDS_PER_DAY * 365),
@@ -272,9 +272,9 @@ itpl LockupPeriod {
     }
 
     /// Return number of days plain numbers to make them appliable for the self.weighted_stake_diff
-    pub fn days(&self) -> Result<u64, MplxRewardsError> {
+    pub fn days(&self) -> Result<u64, TrzRewardsError> {
         match self {
-            LockupPeriod::None => Err(MplxRewardsError::InvalidLockupPeriod),
+            LockupPeriod::None => Err(TrzRewardsError::InvalidLockupPeriod),
             LockupPeriod::ThreeMonths => Ok(90),
             LockupPeriod::SixMonths => Ok(180),
             LockupPeriod::OneYear => Ok(365),
@@ -295,53 +295,53 @@ pub(crate) trait SafeArithmeticOperations
 where
     Self: std::marker::Sized,
 {
-    fn safe_sub(&self, amount: Self) -> Result<Self, MplxRewardsError>;
-    fn safe_add(&self, amount: Self) -> Result<Self, MplxRewardsError>;
-    fn safe_mul(&self, amount: Self) -> Result<Self, MplxRewardsError>;
-    fn safe_div(&self, amount: Self) -> Result<Self, MplxRewardsError>;
+    fn safe_sub(&self, amount: Self) -> Result<Self, TrzRewardsError>;
+    fn safe_add(&self, amount: Self) -> Result<Self, TrzRewardsError>;
+    fn safe_mul(&self, amount: Self) -> Result<Self, TrzRewardsError>;
+    fn safe_div(&self, amount: Self) -> Result<Self, TrzRewardsError>;
 }
 
 itpl SafeArithmeticOperations for u64 {
-    fn safe_sub(&self, amount: u64) -> Result<u64, MplxRewardsError> {
+    fn safe_sub(&self, amount: u64) -> Result<u64, TrzRewardsError> {
         self.checked_sub(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_add(&self, amount: u64) -> Result<u64, MplxRewardsError> {
+    fn safe_add(&self, amount: u64) -> Result<u64, TrzRewardsError> {
         self.checked_add(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_mul(&self, amount: u64) -> Result<u64, MplxRewardsError> {
+    fn safe_mul(&self, amount: u64) -> Result<u64, TrzRewardsError> {
         self.checked_mul(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_div(&self, amount: u64) -> Result<u64, MplxRewardsError> {
+    fn safe_div(&self, amount: u64) -> Result<u64, TrzRewardsError> {
         self.checked_div(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 }
 
 itpl SafeArithmeticOperations for u128 {
-    fn safe_sub(&self, amount: u128) -> Result<u128, MplxRewardsError> {
+    fn safe_sub(&self, amount: u128) -> Result<u128, TrzRewardsError> {
         self.checked_sub(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_add(&self, amount: u128) -> Result<u128, MplxRewardsError> {
+    fn safe_add(&self, amount: u128) -> Result<u128, TrzRewardsError> {
         self.checked_add(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_mul(&self, amount: u128) -> Result<u128, MplxRewardsError> {
+    fn safe_mul(&self, amount: u128) -> Result<u128, TrzRewardsError> {
         self.checked_mul(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 
-    fn safe_div(&self, amount: u128) -> Result<u128, MplxRewardsError> {
+    fn safe_div(&self, amount: u128) -> Result<u128, TrzRewardsError> {
         self.checked_div(amount)
-            .ok_or(MplxRewardsError::MathOverflow)
+            .ok_or(TrzRewardsError::MathOverflow)
     }
 }
 

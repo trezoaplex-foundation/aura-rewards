@@ -5,7 +5,7 @@ use trezoa_program::{
 };
 
 use crate::{
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     state::{WrappedMining, WrappedRewardPool},
 };
 
@@ -29,7 +29,7 @@ pub fn assert_owned_by(account: &AccountInfo, owner: &Pubkey) -> ProgramResult {
             *account.owner,
             *owner
         );
-        Err(MplxRewardsError::InvalidAccountOwner.into())
+        Err(TrzRewardsError::InvalidAccountOwner.into())
     }
 }
 

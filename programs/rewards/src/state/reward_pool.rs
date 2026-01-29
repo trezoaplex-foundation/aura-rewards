@@ -1,5 +1,5 @@
 use crate::{
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     state::AccountType,
     utils::{get_curr_unix_ts, LockupPeriod, SafeArithmeticOperations},
 };
@@ -49,13 +49,13 @@ itpl<'a> WrappedImmutableRewardPool<'a> {
             trees.split_at(std::mem::size_of::<PoolWeightedStakeDiffs>());
 
         let pool = RewardPool::load_bytes(pool)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let weighted_stake_diffs = PoolWeightedStakeDiffs::load_bytes(weighted_stake_diffs)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let cumulative_index = CumulativeIndex::load_bytes(cumulative_index)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         Ok(Self {
             pool,
@@ -74,13 +74,13 @@ itpl<'a> WrappedRewardPool<'a> {
             trees.split_at_mut(std::mem::size_of::<PoolWeightedStakeDiffs>());
 
         let pool = RewardPool::load_mut_bytes(pool)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let weighted_stake_diffs = PoolWeightedStakeDiffs::load_mut_bytes(weighted_stake_diffs)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let cumulative_index = CumulativeIndex::load_mut_bytes(cumulative_index)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         Ok(Self {
             pool,
@@ -133,7 +133,7 @@ itpl<'a> WrappedRewardPool<'a> {
     /// Distributes rewards via calculating indexes and weighted stakes
     pub fn distribute(&mut self, rewards: u64) -> ProgramResult {
         if self.pool.total_share == 0 {
-            return Err(MplxRewardsError::RewardsNoDeposits.into());
+            return Err(TrzRewardsError::RewardsNoDeposits.into());
         }
 
         let curr_ts = Clock::get().unwrap().unix_timestamp as u64;
@@ -313,13 +313,13 @@ itpl<'a> WrappedRewardPool<'a> {
             let diff_record = mining
                 .weighted_stake_diffs
                 .get_mut(&beginning_of_the_stake_expiration_date)
-                .ok_or(MplxRewardsError::NoWeightedStakeModifiersAtADate)?;
+                .ok_or(TrzRewardsError::NoWeightedStakeModifiersAtADate)?;
             *diff_record = diff_record.safe_sub(diff_by_expiration_date)?;
 
             let diff_record = self
                 .weighted_stake_diffs
                 .get_mut(&beginning_of_the_stake_expiration_date)
-                .ok_or(MplxRewardsError::NoWeightedStakeModifiersAtADate)?;
+                .ok_or(TrzRewardsError::NoWeightedStakeModifiersAtADate)?;
             *diff_record = diff_record.safe_sub(diff_by_expiration_date)?;
         }
 
@@ -499,16 +499,16 @@ itpl RewardPool {
                 .safe_div(distribution_days_left)?
                 .safe_div(PRECISION)?,
         )
-        .map_err(|_| MplxRewardsError::InvalidPrimitiveTypesConversion)?)
+        .map_err(|_| TrzRewardsError::InvalidPrimitiveTypesConversion)?)
     }
 
     fn modify_weighted_stake_diffs(
         diffs: &mut MiningWeightedStakeDiffs,
         timestamp: u64,
         weighted_stake_diff: u64,
-    ) -> Result<(), MplxRewardsError> {
+    ) -> Result<(), TrzRewardsError> {
         match diffs.get_mut(&timestamp) {
-            None => Err(MplxRewardsError::NoWeightedStakeModifiersAtADate),
+            None => Err(TrzRewardsError::NoWeightedStakeModifiersAtADate),
             Some(modifier) => {
                 *modifier = modifier.safe_sub(weighted_stake_diff)?;
                 Ok(())

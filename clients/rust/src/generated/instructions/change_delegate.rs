@@ -69,7 +69,7 @@ itpl ChangeDelegate {
         data.append(&mut args);
 
         trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         }
@@ -345,7 +345,7 @@ itpl<'a, 'b> ChangeDelegateCpi<'a, 'b> {
         data.append(&mut args);
 
         let instruction = trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         };

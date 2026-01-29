@@ -1,5 +1,5 @@
 //! Program entrypoint
-use crate::{error::MplxRewardsError, instructions::process_instruction};
+use crate::{error::TrzRewardsError, instructions::process_instruction};
 use trezoa_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult,
     program_error::PrintProgramError, pubkey::Pubkey,
@@ -13,7 +13,7 @@ fn program_entrypoint<'a>(
 ) -> ProgramResult {
     if let Err(error) = process_instruction(program_id, accounts, instruction_data) {
         // Catch the error so we can print it
-        error.print::<MplxRewardsError>();
+        error.print::<TrzRewardsError>();
         return Err(error);
     }
     Ok(())

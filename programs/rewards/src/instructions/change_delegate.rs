@@ -1,6 +1,6 @@
 use crate::{
     asserts::assert_and_get_pool_and_mining,
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     utils::{get_delegate_mining, verify_delegate_mining_address, AccountLoader},
 };
 use trezoa_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
@@ -21,7 +21,7 @@ pub fn process_change_delegate<'a>(
     let new_delegate_mining = AccountLoader::next_with_owner(account_info_iter, program_id)?;
 
     if new_delegate_mining.key == old_delegate_mining.key {
-        return Err(MplxRewardsError::DelegatesAreTheSame.into());
+        return Err(TrzRewardsError::DelegatesAreTheSame.into());
     }
 
     let mining_data = &mut mining.data.borrow_mut();

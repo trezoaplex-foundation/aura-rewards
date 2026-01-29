@@ -1,6 +1,6 @@
 use crate::{
     asserts::{assert_account_key, assert_account_len, assert_account_owner},
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     state::{RewardPool, WrappedRewardPool},
     utils::{create_account, find_vault_program_address, initialize_account, AccountLoader},
 };
@@ -33,7 +33,7 @@ pub fn process_initialize_pool<'a>(
     let reward_pool_data = &mut reward_pool.data.borrow_mut();
     let wrapped_reward_pool = WrappedRewardPool::from_bytes_mut(reward_pool_data)?;
     if wrapped_reward_pool.pool.is_initialized() {
-        return Err(MplxRewardsError::AlreadyInitialized.into());
+        return Err(TrzRewardsError::AlreadyInitialized.into());
     }
 
     let (vault_pubkey, token_account_bump) =

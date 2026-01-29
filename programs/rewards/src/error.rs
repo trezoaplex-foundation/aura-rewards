@@ -10,7 +10,7 @@ use thiserror::Error;
 
 /// Errors that may be returned by the program.
 #[derive(Clone, Debug, Eq, Error, FromPrimitive, PartialEq)]
-pub enum MplxRewardsError {
+pub enum TrzRewardsError {
     /// 0
     /// Input account owner
     #[error("Input account owner")]
@@ -93,20 +93,20 @@ pub enum MplxRewardsError {
     DecreaseRewardsTooBig,
 }
 
-itpl PrintProgramError for MplxRewardsError {
+itpl PrintProgramError for TrzRewardsError {
     fn print<E>(&self) {
         msg!("Error: {}", &self.to_string());
     }
 }
 
-itpl From<MplxRewardsError> for ProgramError {
-    fn from(e: MplxRewardsError) -> Self {
+itpl From<TrzRewardsError> for ProgramError {
+    fn from(e: TrzRewardsError) -> Self {
         ProgramError::Custom(e as u32)
     }
 }
 
-itpl<T> DecodeError<T> for MplxRewardsError {
+itpl<T> DecodeError<T> for TrzRewardsError {
     fn type_of() -> &'static str {
-        "MplxRewardsError"
+        "TrzRewardsError"
     }
 }

@@ -40,7 +40,7 @@ itpl DistributeRewards {
             .unwrap();
 
         trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         }
@@ -204,7 +204,7 @@ itpl<'a, 'b> DistributeRewardsCpi<'a, 'b> {
             .unwrap();
 
         let instruction = trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         };

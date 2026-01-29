@@ -1,4 +1,4 @@
-use crate::{error::MplxRewardsError, state::PRECISION};
+use crate::{error::TrzRewardsError, state::PRECISION};
 
 use crate::utils::SafeArithmeticOperations;
 use bytemuck::{Pod, Zeroable};
@@ -41,10 +41,10 @@ itpl<'a> WrappedMining<'a> {
     pub fn from_bytes_mut(bytes: &'a mut [u8]) -> Result<Self, ProgramError> {
         let (mining, weighted_stake_diffs) = bytes.split_at_mut(Mining::LEN);
         let mining = Mining::load_mut_bytes(mining)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let weighted_stake_diffs = MiningWeightedStakeDiffs::load_mut_bytes(weighted_stake_diffs)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         Ok(Self {
             mining,
@@ -83,7 +83,7 @@ itpl<'a> WrappedMining<'a> {
         }
 
         if decreased_weighted_stake_number > self.mining.share {
-            return Err(MplxRewardsError::DecreaseRewardsTooBig.into());
+            return Err(TrzRewardsError::DecreaseRewardsTooBig.into());
         }
 
         // apply penalty to the weighted stake
@@ -221,7 +221,7 @@ itpl Mining {
                 .safe_mul(u128::from(total_share))?
                 .safe_div(PRECISION)?,
         )
-        .map_err(|_| MplxRewardsError::InvalidPrimitiveTypesConversion)?;
+        .map_err(|_| TrzRewardsError::InvalidPrimitiveTypesConversion)?;
 
         if rewards > 0 {
             *unclaimed_rewards = (*unclaimed_rewards).safe_add(rewards)?;
@@ -243,10 +243,10 @@ itpl<'a> WrappedImmutableMining<'a> {
     pub fn from_bytes(bytes: &'a [u8]) -> Result<Self, ProgramError> {
         let (mining, weighted_stake_diffs) = bytes.split_at(Mining::LEN);
         let mining =
-            Mining::load_bytes(mining).ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            Mining::load_bytes(mining).ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         let weighted_stake_diffs = MiningWeightedStakeDiffs::load_bytes(weighted_stake_diffs)
-            .ok_or(MplxRewardsError::RetreivingZeroCopyAccountFailire)?;
+            .ok_or(TrzRewardsError::RetreivingZeroCopyAccountFailire)?;
 
         Ok(Self {
             mining,

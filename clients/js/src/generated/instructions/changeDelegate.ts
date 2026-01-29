@@ -90,7 +90,7 @@ export function changeDelegate(
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
-    'tplxRewards',
+    'trzRewards',
     'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'
   );
 

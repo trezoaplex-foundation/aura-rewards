@@ -2,13 +2,13 @@ use std::borrow::BorrowMut;
 
 use crate::utils::*;
 use assert_custom_on_chain_error::AssertCustomOnChainErr;
-use tplx_rewards::{error::MplxRewardsError, state::WrappedMining, utils::LockupPeriod};
+use trz_rewards::{error::TrzRewardsError, state::WrappedMining, utils::LockupPeriod};
 use trezoa_program::pubkey::Pubkey;
 use trezoa_program_test::*;
 use trezoa_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
 
 async fn setup() -> (ProgramTestContext, TestRewards, Keypair, Pubkey) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let deposit_token_mint = Keypair::new();
@@ -121,7 +121,7 @@ async fn close_when_has_stake_from_others() {
             &delegate.pubkey(),
         )
         .await
-        .assert_on_chain_err(MplxRewardsError::StakeFromOthersMustBeZero);
+        .assert_on_chain_err(TrzRewardsError::StakeFromOthersMustBeZero);
 }
 
 #[tokio::test]
@@ -191,5 +191,5 @@ async fn close_when_has_unclaimed_rewards() {
     test_rewards
         .close_mining(&mut context, &mining, &mining_owner, &mining_owner.pubkey())
         .await
-        .assert_on_chain_err(MplxRewardsError::RewardsMustBeClaimed);
+        .assert_on_chain_err(TrzRewardsError::RewardsMustBeClaimed);
 }

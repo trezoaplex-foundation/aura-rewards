@@ -56,7 +56,7 @@ itpl CloseMining {
         let data = CloseMiningInstructionData::new().try_to_vec().unwrap();
 
         trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         }
@@ -271,7 +271,7 @@ itpl<'a, 'b> CloseMiningCpi<'a, 'b> {
         let data = CloseMiningInstructionData::new().try_to_vec().unwrap();
 
         let instruction = trezoa_program::instruction::Instruction {
-            program_id: crate::TPLX_REWARDS_ID,
+            program_id: crate::TRZ_REWARDS_ID,
             accounts,
             data,
         };

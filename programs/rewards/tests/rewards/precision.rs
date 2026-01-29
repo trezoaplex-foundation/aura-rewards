@@ -1,11 +1,11 @@
 use crate::utils::*;
-use tplx_rewards::utils::LockupPeriod;
+use trz_rewards::utils::LockupPeriod;
 use trezoa_program::pubkey::Pubkey;
 use trezoa_program_test::*;
 use trezoa_sdk::{clock::SECONDS_PER_DAY, signature::Keypair, signer::Signer};
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();

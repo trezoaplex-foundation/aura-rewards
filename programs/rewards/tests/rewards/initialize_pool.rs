@@ -1,11 +1,11 @@
 use crate::utils::*;
-use tplx_rewards::state::WrappedRewardPool;
+use trz_rewards::state::WrappedRewardPool;
 use trezoa_program_test::*;
 use trezoa_sdk::{signature::Keypair, signer::Signer};
 use std::borrow::BorrowMut;
 
 async fn setup() -> (ProgramTestContext, TestRewards) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
     let mint_owner = &context.payer.pubkey();
     let reward_mint = Keypair::new();

@@ -1,5 +1,5 @@
 use crate::utils::*;
-use tplx_rewards::{
+use trz_rewards::{
     state::{WrappedMining, WrappedRewardPool},
     utils::LockupPeriod,
 };
@@ -10,7 +10,7 @@ use tpl_token::state::Account;
 use std::borrow::{Borrow, BorrowMut};
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();

@@ -2,7 +2,7 @@ use std::borrow::{Borrow, BorrowMut};
 
 use crate::utils::*;
 use assert_custom_on_chain_error::AssertCustomOnChainErr;
-use tplx_rewards::{
+use trz_rewards::{
     state::{WrappedMining, WrappedRewardPool},
     utils::LockupPeriod,
 };
@@ -12,7 +12,7 @@ use trezoa_sdk::{signature::Keypair, signer::Signer};
 use tpl_token::state::Account;
 
 async fn setup() -> (ProgramTestContext, TestRewards, Pubkey) {
-    let test = ProgramTest::new("tplx_rewards", tplx_rewards::ID, None);
+    let test = ProgramTest::new("trz_rewards", trz_rewards::ID, None);
     let mut context = test.start_with_context().await;
 
     let owner = &context.payer.pubkey();
@@ -74,7 +74,7 @@ async fn change_delegate_to_the_same() {
             6_000_000,
         )
         .await
-        .assert_on_chain_err(tplx_rewards::error::MplxRewardsError::DelegatesAreTheSame);
+        .assert_on_chain_err(trz_rewards::error::TrzRewardsError::DelegatesAreTheSame);
 }
 
 #[tokio::test]

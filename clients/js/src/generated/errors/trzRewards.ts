@@ -259,7 +259,7 @@ nameToErrorMap.set('DecreaseRewardsTooBig', DecreaseRewardsTooBigError);
  * Attempts to resolve a custom program error from the provided error code.
  * @category Errors
  */
-export function getMplxRewardsErrorFromCode(
+export function getTrzRewardsErrorFromCode(
   code: number,
   program: Program,
   cause?: Error
@@ -272,7 +272,7 @@ export function getMplxRewardsErrorFromCode(
  * Attempts to resolve a custom program error from the provided error name, i.e. 'Unauthorized'.
  * @category Errors
  */
-export function getMplxRewardsErrorFromName(
+export function getTrzRewardsErrorFromName(
   name: string,
   program: Program,
   cause?: Error

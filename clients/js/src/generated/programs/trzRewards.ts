@@ -13,22 +13,22 @@ import {
   PublicKey,
 } from '@trezoaplex-foundation/umi';
 import {
-  getMplxRewardsErrorFromCode,
-  getMplxRewardsErrorFromName,
+  getTrzRewardsErrorFromCode,
+  getTrzRewardsErrorFromName,
 } from '../errors';
 
-export const TPLX_REWARDS_PROGRAM_ID =
+export const TRZ_REWARDS_PROGRAM_ID =
   'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR' as PublicKey<'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'>;
 
-export function createMplxRewardsProgram(): Program {
+export function createTrzRewardsProgram(): Program {
   return {
-    name: 'tplxRewards',
-    publicKey: TPLX_REWARDS_PROGRAM_ID,
+    name: 'trzRewards',
+    publicKey: TRZ_REWARDS_PROGRAM_ID,
     getErrorFromCode(code: number, cause?: Error) {
-      return getMplxRewardsErrorFromCode(code, this, cause);
+      return getTrzRewardsErrorFromCode(code, this, cause);
     },
     getErrorFromName(name: string, cause?: Error) {
-      return getMplxRewardsErrorFromName(name, this, cause);
+      return getTrzRewardsErrorFromName(name, this, cause);
     },
     isOnCluster() {
       return true;
@@ -36,20 +36,20 @@ export function createMplxRewardsProgram(): Program {
   };
 }
 
-export function getMplxRewardsProgram<T extends Program = Program>(
+export function getTrzRewardsProgram<T extends Program = Program>(
   context: Pick<Context, 'programs'>,
   clusterFilter?: ClusterFilter
 ): T {
-  return context.programs.get<T>('tplxRewards', clusterFilter);
+  return context.programs.get<T>('trzRewards', clusterFilter);
 }
 
-export function getMplxRewardsProgramId(
+export function getTrzRewardsProgramId(
   context: Pick<Context, 'programs'>,
   clusterFilter?: ClusterFilter
 ): PublicKey {
   return context.programs.getPublicKey(
-    'tplxRewards',
-    TPLX_REWARDS_PROGRAM_ID,
+    'trzRewards',
+    TRZ_REWARDS_PROGRAM_ID,
     clusterFilter
   );
 }

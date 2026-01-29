@@ -1,6 +1,6 @@
 use crate::{
     asserts::assert_account_key,
-    error::MplxRewardsError,
+    error::TrzRewardsError,
     state::WrappedRewardPool,
     utils::{get_curr_unix_ts, spl_transfer, AccountLoader, SafeArithmeticOperations},
 };
@@ -24,7 +24,7 @@ pub fn process_fill_vault<'a>(
     let _token_program = AccountLoader::next_with_key(account_info_iter, &tpl_token::id())?;
 
     if rewards == 0 {
-        return Err(MplxRewardsError::RewardsMustBeGreaterThanZero.into());
+        return Err(TrzRewardsError::RewardsMustBeGreaterThanZero.into());
     }
 
     let reward_pool_data = &mut reward_pool.data.borrow_mut();
@@ -52,7 +52,7 @@ pub fn process_fill_vault<'a>(
         let curr_ts = get_curr_unix_ts();
         let beginning_of_the_curr_day = curr_ts - (curr_ts % SECONDS_PER_DAY);
         if distribution_ends_at_day_start < beginning_of_the_curr_day {
-            return Err(MplxRewardsError::DistributionInThePast.into());
+            return Err(TrzRewardsError::DistributionInThePast.into());
         }
 
         let days_diff = distribution_ends_at_day_start

@@ -5,6 +5,6 @@
 //! [https://github.com/trezoaplex-foundation/kinobi]
 //!
 
-pub(crate) mod tplx_rewards;
+pub(crate) mod trz_rewards;
 
-pub use self::tplx_rewards::MplxRewardsError;
+pub use self::trz_rewards::TrzRewardsError;

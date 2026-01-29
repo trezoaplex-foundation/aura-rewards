@@ -1,5 +1,5 @@
 // use crate::utils::*;
-// use tplx_rewards::utils::LockupPeriod;
+// use trz_rewards::utils::LockupPeriod;
 // use trezoa_program::pubkey::Pubkey;
 // use trezoa_program_test::*;
 // use trezoa_sdk::clock::SECONDS_PER_DAY;
@@ -8,9 +8,9 @@
 
 // async fn setup() -> (ProgramTestContext, TestRewards, Pubkey, Keypair) {
 //     let test = ProgramTest::new(
-//         "tplx_rewards",
-//         tplx_rewards::id(),
-//         processor!(tplx_rewards::processor::process_instruction),
+//         "trz_rewards",
+//         trz_rewards::id(),
+//         processor!(trz_rewards::processor::process_instruction),
 //     );
 
 //     let mut context = test.start_with_context().await;

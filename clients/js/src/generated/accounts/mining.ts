@@ -137,7 +137,7 @@ export function getMiningGpaBuilder(
   context: Pick<Context, 'rpc' | 'programs'>
 ) {
   const programId = context.programs.getPublicKey(
-    'tplxRewards',
+    'trzRewards',
     'BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR'
   );
   return gpaBuilder(context, programId)

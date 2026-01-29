@@ -7,5 +7,5 @@
 
 use trezoa_program::{pubkey, pubkey::Pubkey};
 
-/// `tplx_rewards` program ID.
-pub const TPLX_REWARDS_ID: Pubkey = pubkey!("BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR");
+/// `trz_rewards` program ID.
+pub const TRZ_REWARDS_ID: Pubkey = pubkey!("BF5PatmRTQDgEKoXR7iHRbkibEEi83nVM38cUKWzQcTR");
