@@ -13,7 +13,7 @@ program_common: &program_common
 
 tpl_project_name_program: &tpl_project_name_program
   - *program_common
-  - "programs/tpl-project-name/**"
+  - "programs/tpl-trezoa-name/**"
 
 programs: &programs
   - *tpl_project_name_program

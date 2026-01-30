@@ -1,21 +1,21 @@
-# JavaScript client for Mpl Project Name
+# JavaScript client for Mpl Trezoa Name
 
-A Umi-compatible JavaScript library for the project.
+A Umi-compatible JavaScript library for the trezoa.
 
 ## Getting started
 
 1. First, if you're not already using Umi, [follow these instructions to install the Umi framework](https://github.com/trezoaplex-foundation/umi/blob/main/docs/installation.md).
 2. Next, install this library using the package manager of your choice.
    ```sh
-   npm install @trezoaplex-foundation/tpl-project-name
+   npm install @trezoaplex-foundation/tpl-trezoa-name
    ```
 2. Finally, register the library with your Umi instance like so.
    ```ts
-   import { tplProjectName } from '@trezoaplex-foundation/tpl-project-name';
+   import { tplProjectName } from '@trezoaplex-foundation/tpl-trezoa-name';
    umi.use(tplProjectName());
    ```
 
-You can learn more about this library's API by reading its generated [TypeDoc documentation](https://tpl-project-name-js-docs.vercel.app).
+You can learn more about this library's API by reading its generated [TypeDoc documentation](https://tpl-trezoa-name-js-docs.vercel.app).
 
 ## Setting up Benchmarks
 The GitHub workflow will automatically run benchmarks on pushes to the `main` branch, however it needs a gh-pages branch to deploy the hosted graph website to. Run the commands below to setup the gh-pages branch.
