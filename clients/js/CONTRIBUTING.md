@@ -1,6 +1,6 @@
 # Contributing to the JavaScript client
 
-This is a quick guide to help you contribute to the JavaScript client of Mpl Trezoa Name.
+This is a quick guide to help you contribute to the JavaScript client of Tpl Trezoa Name.
 
 ## Getting started
 

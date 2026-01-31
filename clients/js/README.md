@@ -1,4 +1,4 @@
-# JavaScript client for Mpl Trezoa Name
+# JavaScript client for Tpl Trezoa Name
 
 A Umi-compatible JavaScript library for the trezoa.
 

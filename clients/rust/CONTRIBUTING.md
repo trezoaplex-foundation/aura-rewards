@@ -1,6 +1,6 @@
 # Contributing to the Rust client
 
-This is a quick guide to help you contribute to the Rust client of Mpl Trezoa Name.
+This is a quick guide to help you contribute to the Rust client of Tpl Trezoa Name.
 
 ## Getting started
 
